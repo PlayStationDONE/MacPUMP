@@ -1,8 +1,9 @@
 # MacPUMP
 
+Tired of going to the app store and roaming around for the best Mac monitoring app but come out frustrated? I did! That's why i created this app just for you!
 **The all-in-one, ultimate monitor for your Mac.** MacPUMP (Mac Power Usage Monitoring Program) shows where your
-Mac's power goes, which apps drain your battery, and how your Mac is really doing, in plain English. Everything stays
-on your Mac.
+Mac's power goes, which apps drain your battery, and how your Mac is really doing, with ease of use in mind! Everything stays
+on your Mac & no root access needed!
 
 **[⬇︎ Download the latest version](https://github.com/PlayStationDONE/MacPUMP/releases/latest)**. It's free.
 
