@@ -1,0 +1,72 @@
+---
+import { faq } from '../data/content';
+---
+
+<section class="section" id="faq" aria-labelledby="faq-title">
+  <div class="container faq">
+    <div class="faq__head" data-reveal>
+      <p class="eyebrow">FAQ</p>
+      <h2 class="h2" id="faq-title">Questions, answered.</h2>
+      <p class="muted faq__more">
+        More in the <a href="/docs">documentation</a>.
+      </p>
+    </div>
+    <div class="faq__list" data-reveal>
+      {
+        faq.map((item) => (
+          <details class="disclosure faq__item">
+            <summary>{item.q}</summary>
+            <div class="disclosure__body">
+              <p>{item.a}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr);
+    gap: clamp(2rem, 1rem + 4vw, 5rem);
+    align-items: start;
+  }
+
+  .faq__head {
+    position: sticky;
+    top: calc(var(--nav-h) + var(--s-6));
+  }
+
+  .faq__more {
+    margin-top: var(--s-4);
+  }
+
+  .faq__item {
+    margin-top: 0;
+  }
+
+  .faq__item:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .faq__item :global(summary) {
+    font-size: 1.0625rem;
+  }
+
+  .faq__item :global(.disclosure__body) {
+    font-size: var(--fs-body);
+    max-width: 44rem;
+  }
+
+  @media (max-width: 860px) {
+    .faq {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .faq__head {
+      position: static;
+    }
+  }
+</style>

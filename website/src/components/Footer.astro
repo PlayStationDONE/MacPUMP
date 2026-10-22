@@ -1,0 +1,155 @@
+---
+import { Image } from 'astro:assets';
+import icon from '../assets/app-icon.png';
+import { app, footerLinks, legal, release, requirements } from '../config/site';
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <a href="/" class="footer__logo">
+        <Image src={icon} alt="" width={36} height={36} widths={[36, 72]} sizes="36px" />
+        <span>{app.name}</span>
+      </a>
+      <p class="caption">
+        {`${app.longName}. Version ${release.version}${release.channel === 'pre-release' ? ' (pre-release)' : ''} · ${requirements.macOS}.`}
+      </p>
+    </div>
+
+    <nav class="footer__links" aria-label="Footer">
+      <ul>
+        {footerLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="footer__appearance">
+      <span class="caption" id="appearance-label">Appearance</span>
+      <div class="segmented footer__segmented" role="group" aria-labelledby="appearance-label" data-theme-control>
+        <button type="button" data-theme-value="system" aria-pressed="true">Auto</button>
+        <button type="button" data-theme-value="light" aria-pressed="false">Light</button>
+        <button type="button" data-theme-value="dark" aria-pressed="false">Dark</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container caption">
+    <div class="footer__legal">
+    <p>{legal.copyright} MacPUMP is proprietary software.</p>
+    <p>
+      Includes code from <a href={legal.thirdParty.url} rel="noopener">{legal.thirdParty.name}</a> by {
+        legal.thirdParty.author
+      }, used under the {legal.thirdParty.licence}. Mac, macOS and Apple silicon are trademarks of Apple Inc. MacPUMP
+      is not affiliated with Apple.
+    </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: var(--section-y);
+    border-top: 1px solid var(--border);
+    background: var(--bg-alt);
+    padding-block: var(--s-8) var(--s-6);
+  }
+
+  .footer__inner {
+    display: grid;
+    grid-template-columns: 1.3fr 2fr auto;
+    gap: var(--s-6);
+    align-items: start;
+  }
+
+  .footer__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-3);
+    margin-bottom: var(--s-3);
+    color: var(--text);
+    font-weight: 650;
+    font-size: 1.125rem;
+    letter-spacing: -0.02em;
+  }
+
+  .footer__logo:hover {
+    text-decoration: none;
+  }
+
+  .footer__logo img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .footer__brand .caption {
+    max-width: 22rem;
+  }
+
+  .footer__links ul {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, max-content));
+    gap: var(--s-3) var(--s-7);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer__links a {
+    color: var(--text-2);
+    font-size: var(--fs-small);
+  }
+
+  .footer__links a:hover {
+    color: var(--text);
+  }
+
+  .footer__appearance {
+    display: grid;
+    gap: var(--s-2);
+    justify-items: start;
+  }
+
+  .footer__segmented {
+    background: color-mix(in srgb, var(--text) 6%, transparent);
+  }
+
+  .footer__segmented button {
+    min-height: 1.9rem;
+    padding: 0 0.8rem;
+    font-size: var(--fs-caption);
+  }
+
+  .footer__legal {
+    display: grid;
+    gap: var(--s-2);
+    margin-top: var(--s-7);
+    padding-top: var(--s-5);
+    border-top: 1px solid var(--border);
+  }
+
+  .footer__legal a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  @media (max-width: 900px) {
+    .footer__inner {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .footer__inner {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .footer__links ul {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--s-3) var(--s-5);
+    }
+  }
+</style>

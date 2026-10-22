@@ -1,0 +1,144 @@
+---
+import { provenance, type Kind } from '../data/content';
+
+const kinds: { kind: Kind; label: string; text: string }[] = [
+  { kind: 'measured', label: 'Measured', text: 'Read directly from a sensor in your Mac.' },
+  { kind: 'calculated', label: 'Calculated', text: 'Worked out exactly from measured readings.' },
+  { kind: 'estimated', label: 'Estimated', text: 'A model’s best figure, with its known limits.' },
+  { kind: 'unavailable', label: 'Unavailable', text: 'Your Mac doesn’t provide it, so nothing is shown.' },
+];
+const label = (k: Kind) => kinds.find((x) => x.kind === k)!.label;
+---
+
+<section class="section" id="numbers" aria-labelledby="numbers-title">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Honest numbers</p>
+      <h2 class="h2" id="numbers-title">Every number tells you where it came from.</h2>
+      <p class="lead">
+        Some readings come straight from your Mac’s sensors. Others have to be estimated, because the detailed figures
+        need administrator access and MacPUMP never asks for it. Each one is labelled, so you always know which is which.
+      </p>
+    </div>
+
+    <ul class="kinds" data-reveal>
+      {
+        kinds.map((k) => (
+          <li>
+            <span class={`badge badge--${k.kind}`}>{k.label}</span>
+            <p class="caption">{k.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="table-wrap numbers__table" data-reveal>
+      <table class="table">
+        <caption class="visually-hidden">Where each MacPUMP reading comes from</caption>
+        <thead>
+          <tr>
+            <th scope="col">Reading</th>
+            <th scope="col">Label</th>
+            <th scope="col">How it’s worked out</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            provenance.map((p) => (
+              <tr>
+                <th scope="row">{p.reading}</th>
+                <td>
+                  <span class={`badge badge--${p.kind}`}>{label(p.kind)}</span>
+                </td>
+                <td>{p.how}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="caption numbers__foot">
+      Calibrated on a MacBook Pro with an M1 Pro. On other Apple silicon Macs the estimates may vary a little, and MacPUMP
+      says so where they haven’t been validated. <a href="/docs/measurements">How MacPUMP measures power</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .kinds {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--s-5);
+    margin: 0 0 var(--s-6);
+    padding: 0;
+    list-style: none;
+  }
+
+  .kinds li {
+    display: grid;
+    align-content: start;
+    gap: var(--s-2);
+    justify-items: start;
+  }
+
+  .numbers__table th[scope='row'] {
+    color: var(--text);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    background: none;
+    white-space: nowrap;
+  }
+
+  .numbers__table td {
+    color: var(--text-2);
+  }
+
+  .numbers__table td:nth-child(2) {
+    white-space: nowrap;
+  }
+
+  .numbers__foot {
+    margin-top: var(--s-4);
+  }
+
+  @media (max-width: 860px) {
+    .kinds {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* On phones the table becomes a stacked list, so nothing needs sideways scrolling. */
+  @media (max-width: 600px) {
+    .numbers__table {
+      border: 0;
+      background: none;
+      overflow: visible;
+    }
+
+    .numbers__table thead {
+      display: none;
+    }
+
+    .numbers__table tr {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--s-1) var(--s-3);
+      padding: var(--s-4) 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .numbers__table th,
+    .numbers__table td {
+      padding: 0;
+      border: 0;
+    }
+
+    .numbers__table th[scope='row'] {
+      white-space: normal;
+    }
+
+    .numbers__table td:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

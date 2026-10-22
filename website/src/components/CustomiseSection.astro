@@ -1,0 +1,112 @@
+---
+const specs = [
+  {
+    title: 'Popover layouts',
+    text: 'Classic, Compact, Graph or Performance, or build your own: switch blocks on and off, reorder them and add small live graphs.',
+  },
+  {
+    title: 'Floating overlay',
+    text: 'An optional always-on-top window with live readings and a graph. Choose its corner, size, opacity and when it shows. Off by default.',
+  },
+  {
+    title: 'Alerts and charge reminders',
+    text: 'Alerts on battery, temperature, memory, disk space, network and more, with quiet hours and a log. Reminders to unplug or plug in only notify you; they never change how your Mac charges.',
+  },
+  {
+    title: 'Profiles',
+    text: 'Named sets of settings that can switch automatically on battery, on power or with an external display. Export and import them.',
+  },
+  {
+    title: 'Menu bar and shortcuts',
+    text: 'Show MacPUMP in the menu bar, the Dock or both. Custom menu bar text such as “CPU {cpu} · {temp}”, and ⌥⌘P to open the popover from anywhere.',
+  },
+  {
+    title: 'For scripts and Shortcuts',
+    text: '<code>macpump://</code> links open the overlay, popover, dashboard, Settings or a profile, and a <code>--status</code> command prints the current readings as JSON.',
+  },
+];
+---
+
+<section class="section section--alt" id="customise" aria-labelledby="customise-title">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Lite and Advanced</p>
+      <h2 class="h2" id="customise-title">Simple when you want it. Deep when you need it.</h2>
+    </div>
+
+    <div class="modes" data-reveal>
+      <div class="modes__item">
+        <h3 class="h3">Lite</h3>
+        <p class="muted">
+          The essentials: Power, Power History, Apps and Temperature, with a short Settings page. Optional gentle defaults
+          read less in the background to save energy.
+        </p>
+      </div>
+      <div class="modes__item">
+        <h3 class="h3">Advanced</h3>
+        <p class="muted">
+          Everything: CPU, GPU, Memory, Disk, Network, Activity and Sensors tabs, alerts, profiles, the overlay and every
+          setting. Switch at any time; nothing is deleted.
+        </p>
+      </div>
+    </div>
+
+    <dl class="specs">
+      {
+        specs.map((s, i) => (
+          <div class="specs__row" data-reveal style={`--reveal-delay:${(i % 2) * 60}ms`}>
+            <dt class="h3">{s.title}</dt>
+            <dd class="muted" set:html={s.text} />
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<style>
+  .modes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-2);
+    padding: var(--s-2);
+    border-radius: var(--r-xl);
+    background: color-mix(in srgb, var(--text) 5%, transparent);
+  }
+
+  .modes__item {
+    padding: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+    border-radius: calc(var(--r-xl) - var(--s-2));
+    background: var(--surface);
+    box-shadow: var(--shadow-1);
+  }
+
+  .modes__item p {
+    margin-top: var(--s-2);
+    font-size: var(--fs-small);
+  }
+
+  .specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 clamp(2rem, 1rem + 4vw, 5rem);
+    margin-top: var(--s-8);
+  }
+
+  .specs__row {
+    padding-block: var(--s-5);
+    border-top: 1px solid var(--border);
+  }
+
+  .specs__row dd {
+    margin-top: var(--s-2);
+    font-size: var(--fs-small);
+  }
+
+  @media (max-width: 760px) {
+    .modes,
+    .specs {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

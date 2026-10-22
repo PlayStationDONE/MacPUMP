@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content';
+import DocsLayout from '../../layouts/DocsLayout.astro';
+
+const docs = (await getCollection('docs')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<DocsLayout
+  title="MacPUMP documentation"
+  description="How to install MacPUMP, read its numbers, and get the most from its history, alerts and automation."
+>
+  <ul class="doc-cards">
+    {
+      docs.map((d) => (
+        <li>
+          <a href={`/docs/${d.id}`}>
+            <span class="caption">{d.data.group}</span>
+            <strong>{d.data.title}</strong>
+            <span class="doc-cards__desc">{d.data.description}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</DocsLayout>
+
+<style>
+  .doc-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .doc-cards li + li {
+    margin-top: 0;
+  }
+
+  .doc-cards a {
+    display: grid;
+    gap: var(--s-1);
+    height: 100%;
+    padding: var(--s-5);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    background: var(--surface);
+    color: var(--text);
+    transition:
+      border-color var(--dur-1) var(--ease-out),
+      transform var(--dur-2) var(--ease-out),
+      box-shadow var(--dur-2) var(--ease-out);
+  }
+
+  .doc-cards a:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-2);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .doc-cards strong {
+    font-size: 1.0625rem;
+    letter-spacing: var(--tracking-heading);
+  }
+
+  .doc-cards__desc {
+    color: var(--text-2);
+    font-size: var(--fs-small);
+  }
+
+  @media (max-width: 600px) {
+    .doc-cards {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

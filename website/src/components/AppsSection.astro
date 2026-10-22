@@ -1,0 +1,70 @@
+---
+import { Image } from 'astro:assets';
+import appsShot from '../assets/screens/popover-apps.png';
+---
+
+<section class="section" id="apps" aria-labelledby="apps-title">
+  <div class="container split">
+    <figure class="split__media" data-reveal>
+      <div class="shot apps__shot">
+        <Image
+          src={appsShot}
+          alt="The Draw by app list in the MacPUMP popover: Google Chrome 6.4 W, Xcode 3.1 W, Slack 1.2 W, Music 0.4 W, and a final row for power not attributed to any app, 94 W."
+          widths={[400, 600, 1020]}
+          sizes="(max-width: 900px) 92vw, 520px"
+        />
+      </div>
+      <figcaption class="caption">
+        Draw by app in the popover, drawn by MacPUMP with sample readings. In the current version the last row is
+        called “Not attributed (residual)”.
+      </figcaption>
+    </figure>
+
+    <div class="split__copy" data-reveal style="--reveal-delay:80ms">
+      <p class="eyebrow">Power by app</p>
+      <h2 class="h2" id="apps-title">Find out what’s draining your battery.</h2>
+      <p class="lead">
+        MacPUMP ranks your apps by the power they’re using, so you can spot the one keeping your fans spinning or your
+        battery falling.
+      </p>
+      <ul class="check-list">
+        <li><strong>One row per app.</strong> A browser’s many helper processes are added to the browser itself.</li>
+        <li>
+          <strong>Honest about the rest.</strong> Power that can’t be put down to a single app, such as the display and
+          macOS itself, gets its own row instead of being spread around.
+        </li>
+        <li><strong>What’s keeping your Mac awake</strong> right now, listed in the Activity tab.</li>
+        <li><strong>App history</strong> from the last 15 minutes to 7 days, stored only on your Mac.</li>
+      </ul>
+
+      <details class="disclosure">
+        <summary>How per-app power is estimated</summary>
+        <div class="disclosure__body">
+          <p>
+            Per-app watts come from <code>ri_energy_nj</code> in <code>proc_pid_rusage</code>: the kernel’s own running
+            total of the energy it bills to each process. MacPUMP samples it every 3 seconds and divides by the
+            interval. It needs no administrator access for your own apps; processes owned by the system are skipped
+            rather than guessed at.
+          </p>
+          <p>
+            This counts processor energy, not the whole machine. Under a controlled load it tracked real power closely
+            but captured about half of it, so the figures are labelled <strong>Estimated</strong> and are never made to
+            add up to the total. Apple does not publish true per-app watts; Activity Monitor shows a unitless “Energy
+            Impact” for the same reason.
+          </p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<style>
+  .apps__shot {
+    padding: 10px;
+    border-radius: var(--r-lg);
+  }
+
+  .apps__shot :global(img) {
+    border-radius: 8px;
+  }
+</style>

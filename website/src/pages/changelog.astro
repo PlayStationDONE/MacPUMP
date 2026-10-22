@@ -1,0 +1,87 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const entries = (await getCollection('changelog')).sort((a, b) => b.data.order - a.data.order);
+const rendered = await Promise.all(entries.map(async (e) => ({ entry: e, Content: (await render(e)).Content })));
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+---
+
+<Base title="Changelog" description="Every MacPUMP release and what changed in it.">
+  <div class="container container--narrow page">
+    <header class="page__header">
+      <p class="eyebrow">Changelog</p>
+      <h1 class="page__title">What’s new in MacPUMP</h1>
+      <p class="lead">Every release, newest first.</p>
+    </header>
+
+    <ol class="releases">
+      {
+        rendered.map(({ entry, Content }) => (
+          <li class="release" id={`v${entry.data.version}`}>
+            <div class="release__meta">
+              <a class="release__version measure" href={`#v${entry.data.version}`}>
+                {entry.data.version}
+              </a>
+              {entry.data.date && <time datetime={entry.data.date.toISOString().slice(0, 10)} class="caption">{fmt(entry.data.date)}</time>}
+              {entry.data.channel === 'pre-release' && <span class="badge badge--demo">Pre-release</span>}
+            </div>
+            <div class="release__body">
+              <h2 class="h3">{entry.data.title}</h2>
+              <div class="prose">
+                <Content />
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</Base>
+
+<style>
+  .releases {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .release {
+    display: grid;
+    grid-template-columns: 9rem minmax(0, 1fr);
+    gap: var(--s-6);
+    padding-block: var(--s-7);
+    border-top: 1px solid var(--border);
+  }
+
+  .release__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-2);
+  }
+
+  .release__version {
+    color: var(--text);
+    font-size: 1.375rem;
+    font-weight: 600;
+  }
+
+  .release__body .prose {
+    margin-top: var(--s-4);
+  }
+
+  @media (max-width: 600px) {
+    .release {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--s-3);
+    }
+
+    .release__meta {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+  }
+</style>

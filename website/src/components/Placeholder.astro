@@ -1,0 +1,71 @@
+---
+/**
+ * A clearly marked stand-in for a screenshot that does not exist yet. Replace it with a real capture of the app
+ * (see MAINTENANCE.md, "Screenshots"); never with a mock-up presented as the app.
+ */
+interface Props {
+  /** Where in the app the screenshot should be taken, e.g. "Dashboard › Power History". */
+  location: string;
+  /** What the screenshot should show. */
+  shows: string;
+  ratio?: string;
+  class?: string;
+}
+
+const { location, shows, ratio = '16 / 10', class: className } = Astro.props;
+---
+
+<div class:list={['placeholder', className]} style={`aspect-ratio:${ratio}`} role="img" aria-label={`Screenshot placeholder: ${location}`}>
+  <div class="placeholder__inner">
+    <span class="placeholder__tag">Screenshot coming soon</span>
+    <p class="placeholder__where">{location}</p>
+    <p class="placeholder__what">{shows}</p>
+  </div>
+</div>
+
+<style>
+  .placeholder {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    border-radius: var(--r-lg);
+    background:
+      repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--text) 3%, transparent) 14px 15px),
+      var(--surface);
+    border: 1.5px dashed var(--border-strong);
+    color: var(--text-2);
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .placeholder__inner {
+    display: grid;
+    gap: var(--s-2);
+    justify-items: center;
+    max-width: 26rem;
+    padding: var(--s-5);
+  }
+
+  .placeholder__tag {
+    padding: 0.2em 0.7em;
+    border-radius: var(--r-pill);
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    font-size: var(--fs-micro);
+    font-weight: 600;
+    color: var(--text-3);
+  }
+
+  .placeholder__where {
+    color: var(--text);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .placeholder__what {
+    font-size: var(--fs-caption);
+    line-height: 1.45;
+    color: var(--text-3);
+  }
+</style>

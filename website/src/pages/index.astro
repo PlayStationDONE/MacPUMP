@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Overview from '../components/Overview.astro';
+import PowerSection from '../components/PowerSection.astro';
+import AppsSection from '../components/AppsSection.astro';
+import HistorySection from '../components/HistorySection.astro';
+import DashboardSection from '../components/DashboardSection.astro';
+import CustomiseSection from '../components/CustomiseSection.astro';
+import NumbersSection from '../components/NumbersSection.astro';
+import PrivacySection from '../components/PrivacySection.astro';
+import DownloadSection from '../components/DownloadSection.astro';
+import FaqSection from '../components/FaqSection.astro';
+import { app, release, requirements } from '../config/site';
+import { faq } from '../data/content';
+
+const software: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: app.name,
+  alternateName: app.longName,
+  applicationCategory: 'UtilitiesApplication',
+  operatingSystem: requirements.macOS,
+  softwareVersion: release.version,
+  description:
+    'MacPUMP shows how much power your MacBook is using right now, how long the battery will last and which apps use the most energy, explained in plain English. Your data stays on your Mac.',
+  url: Astro.site?.toString(),
+};
+if (release.downloadUrl) software.downloadUrl = release.downloadUrl;
+
+const faqPage = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<Base jsonLd={[software, faqPage]}>
+  <Hero />
+  <Overview />
+  <PowerSection />
+  <AppsSection />
+  <HistorySection />
+  <DashboardSection />
+  <CustomiseSection />
+  <NumbersSection />
+  <PrivacySection />
+  <DownloadSection />
+  <FaqSection />
+</Base>

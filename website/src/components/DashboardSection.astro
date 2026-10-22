@@ -1,0 +1,236 @@
+---
+import Placeholder from './Placeholder.astro';
+import { dashboardTabs } from '../data/content';
+
+const slug = (s: string) => s.toLowerCase().replace(/\s+/g, '-');
+---
+
+<section class="section" id="dashboard" aria-labelledby="dashboard-title">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Dashboard</p>
+      <h2 class="h2" id="dashboard-title">The whole picture, one click away.</h2>
+      <p class="lead">
+        Open the dashboard from the menu bar item or the chart button in the popover, for a window with every reading
+        and its history. Lite mode shows the four tabs most people need; Advanced adds the rest.
+      </p>
+    </div>
+
+    <div class="window" data-reveal data-tabs>
+      <div class="window__titlebar" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="window__body">
+        <div class="window__sidebar" role="tablist" aria-label="Dashboard tabs" aria-orientation="vertical">
+          {
+            dashboardTabs.map((t, i) => (
+              <button
+                type="button"
+                role="tab"
+                id={`tab-${slug(t.name)}`}
+                aria-controls={`panel-${slug(t.name)}`}
+                aria-selected={i === 0 ? 'true' : 'false'}
+                tabindex={i === 0 ? 0 : -1}
+              >
+                <span>{t.name}</span>
+                {!t.lite && <span class="window__adv">Advanced</span>}
+              </button>
+            ))
+          }
+        </div>
+        <div class="window__content">
+          {
+            dashboardTabs.map((t, i) => (
+              <div
+                class="window__panel"
+                role="tabpanel"
+                id={`panel-${slug(t.name)}`}
+                aria-labelledby={`tab-${slug(t.name)}`}
+                hidden={i !== 0}
+              >
+                <div class="window__panel-head">
+                  <h3 class="h3">{t.name}</h3>
+                  <span class="caption">{t.lite ? 'Lite and Advanced' : 'Advanced'}</span>
+                </div>
+                <p class="muted window__text">{t.text}</p>
+                <Placeholder location={`Dashboard › ${t.name}`} shows={t.text} ratio="2 / 1" class="window__ph" />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .window {
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-window);
+    overflow: hidden;
+  }
+
+  .window__titlebar {
+    display: flex;
+    gap: 8px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-alt);
+  }
+
+  .window__titlebar span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--text) 16%, transparent);
+  }
+
+  .window__body {
+    display: grid;
+    grid-template-columns: 13.5rem minmax(0, 1fr);
+  }
+
+  .window__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--s-3);
+    border-right: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg-alt) 70%, var(--surface));
+  }
+
+  .window__sidebar button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-2);
+    min-height: 2.1rem;
+    padding: 0 0.7rem;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    font-size: var(--fs-small);
+    text-align: left;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-1) var(--ease-out),
+      color var(--dur-1) var(--ease-out);
+  }
+
+  .window__sidebar button:hover {
+    background: color-mix(in srgb, var(--text) 6%, transparent);
+  }
+
+  .window__sidebar button[aria-selected='true'] {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .window__adv {
+    font-size: var(--fs-micro);
+    color: var(--text-3);
+  }
+
+  [aria-selected='true'] .window__adv {
+    color: rgb(255 255 255 / 0.8);
+  }
+
+  .window__content {
+    padding: clamp(1.25rem, 1rem + 1.5vw, 2.25rem);
+  }
+
+  .window__panel {
+    animation: panel-in var(--dur-2) var(--ease-out);
+  }
+
+  .window__panel-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--s-2);
+  }
+
+  .window__text {
+    margin-top: var(--s-2);
+    max-width: 40rem;
+    font-size: var(--fs-small);
+  }
+
+  .window :global(.window__ph) {
+    margin-top: var(--s-5);
+  }
+
+  .window :global(.window__ph .placeholder__what) {
+    display: none;
+  }
+
+  @keyframes panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .window__body {
+      grid-template-columns: minmax(0, 1fr);
+      min-height: 0;
+    }
+
+    .window__sidebar {
+      flex-direction: row;
+      overflow-x: auto;
+      border-right: 0;
+      border-bottom: 1px solid var(--border);
+      scrollbar-width: none;
+    }
+
+    .window__sidebar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .window__sidebar button {
+      flex: none;
+    }
+
+    .window__adv {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // WAI-ARIA tabs: arrow keys move between tabs, Home/End jump to the ends.
+  document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const select = (tab: HTMLButtonElement, focus = false) => {
+      for (const t of tabs) {
+        const on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute('aria-controls') ?? '');
+        if (panel) panel.hidden = !on;
+      }
+      if (focus) tab.focus();
+      tab.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    };
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(tab));
+      tab.addEventListener('keydown', (e) => {
+        const keys: Record<string, number> = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
+        let next: number | null = null;
+        if (e.key in keys) next = (i + keys[e.key] + tabs.length) % tabs.length;
+        else if (e.key === 'Home') next = 0;
+        else if (e.key === 'End') next = tabs.length - 1;
+        if (next === null) return;
+        e.preventDefault();
+        select(tabs[next], true);
+      });
+    });
+  });
+</script>
