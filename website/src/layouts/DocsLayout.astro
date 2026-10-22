@@ -1,0 +1,277 @@
+---
+import { getCollection } from 'astro:content';
+import Base from './Base.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  /** The current doc's id, to highlight it in the sidebar. */
+  current?: string;
+}
+
+const { title, description, current } = Astro.props;
+const docs = (await getCollection('docs')).sort((a, b) => a.data.order - b.data.order);
+const groups = ['Getting started', 'Using MacPUMP', 'Reference'] as const;
+const index = docs.findIndex((d) => d.id === current);
+const prev = index > 0 ? docs[index - 1] : undefined;
+const next = index >= 0 && index < docs.length - 1 ? docs[index + 1] : undefined;
+---
+
+<Base title={title} description={description}>
+  <div class="container docs">
+    <aside class="docs__side" aria-label="Documentation">
+      <details class="docs__toc" open>
+        <summary>Documentation</summary>
+        <nav>
+          <a href="/docs" class="docs__home" aria-current={!current ? 'page' : undefined}>Overview</a>
+          {
+            groups.map((g) => (
+              <div class="docs__group">
+                <p class="docs__group-title">{g}</p>
+                <ul>
+                  {docs
+                    .filter((d) => d.data.group === g)
+                    .map((d) => (
+                      <li>
+                        <a href={`/docs/${d.id}`} aria-current={d.id === current ? 'page' : undefined}>
+                          {d.data.title}
+                        </a>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            ))
+          }
+          <div class="docs__group">
+            <p class="docs__group-title">More</p>
+            <ul>
+              <li><a href="/changelog">Changelog</a></li>
+              <li><a href="/privacy">Privacy</a></li>
+            </ul>
+          </div>
+        </nav>
+      </details>
+    </aside>
+
+    <article class="docs__main">
+      <header class="docs__header">
+        <p class="eyebrow">Documentation</p>
+        <h1 class="docs__title">{title}</h1>
+        <p class="lead">{description}</p>
+      </header>
+      <div class="prose">
+        <slot />
+      </div>
+      {
+        (prev || next) && (
+          <nav class="docs__pager" aria-label="Previous and next page">
+            {prev ? (
+              <a href={`/docs/${prev.id}`} class="docs__pager-link">
+                <span class="caption">Previous</span>
+                <span>{prev.data.title}</span>
+              </a>
+            ) : (
+              <span />
+            )}
+            {next && (
+              <a href={`/docs/${next.id}`} class="docs__pager-link docs__pager-link--next">
+                <span class="caption">Next</span>
+                <span>{next.data.title}</span>
+              </a>
+            )}
+          </nav>
+        )
+      }
+    </article>
+  </div>
+</Base>
+
+<style>
+  .docs {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: clamp(2rem, 1rem + 4vw, 5rem);
+    padding-top: calc(var(--nav-h) + var(--s-8));
+  }
+
+  .docs__side {
+    position: sticky;
+    top: calc(var(--nav-h) + var(--s-6));
+    align-self: start;
+    max-height: calc(100vh - var(--nav-h) - var(--s-7));
+    overflow-y: auto;
+  }
+
+  .docs__toc > summary {
+    display: none;
+  }
+
+  .docs__toc nav {
+    display: grid;
+    gap: var(--s-5);
+  }
+
+  .docs__group-title {
+    margin-bottom: var(--s-2);
+    font-size: var(--fs-caption);
+    font-weight: 600;
+    color: var(--text-3);
+  }
+
+  .docs__toc ul {
+    display: grid;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .docs__toc a {
+    display: block;
+    padding: 0.35rem 0.7rem;
+    margin-inline: -0.7rem;
+    border-radius: var(--r-xs);
+    color: var(--text-2);
+    font-size: var(--fs-small);
+    line-height: 1.4;
+  }
+
+  .docs__toc a:hover {
+    color: var(--text);
+    background: color-mix(in srgb, var(--text) 5%, transparent);
+    text-decoration: none;
+  }
+
+  .docs__toc a[aria-current='page'] {
+    color: var(--accent-text);
+    background: var(--accent-soft);
+    font-weight: 600;
+  }
+
+  .docs__home {
+    font-weight: 600;
+  }
+
+  .docs__main {
+    max-width: 46rem;
+    min-width: 0;
+  }
+
+  .docs__header {
+    padding-bottom: var(--s-6);
+    margin-bottom: var(--s-6);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .docs__title {
+    font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--tracking-display);
+  }
+
+  .docs__header .lead {
+    margin-top: var(--s-3);
+  }
+
+  .docs__pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-4);
+    margin-top: var(--s-8);
+  }
+
+  .docs__pager-link {
+    display: grid;
+    gap: var(--s-1);
+    padding: var(--s-4) var(--s-5);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    color: var(--text);
+    font-weight: 600;
+    transition:
+      border-color var(--dur-1) var(--ease-out),
+      background-color var(--dur-1) var(--ease-out);
+  }
+
+  .docs__pager-link:hover {
+    border-color: var(--border-strong);
+    background: var(--surface);
+    text-decoration: none;
+  }
+
+  .docs__pager-link--next {
+    grid-column: 2;
+    text-align: right;
+  }
+
+  @media (max-width: 860px) {
+    .docs {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--s-5);
+      padding-top: calc(var(--nav-h) + var(--s-6));
+    }
+
+    .docs__side {
+      position: static;
+      max-height: none;
+      overflow: visible;
+    }
+
+    .docs__toc {
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      background: var(--surface);
+    }
+
+    .docs__toc > summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--s-3) var(--s-4);
+      font-weight: 600;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .docs__toc > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .docs__toc > summary::after {
+      content: '';
+      width: 0.5rem;
+      height: 0.5rem;
+      border-right: 2px solid var(--text-3);
+      border-bottom: 2px solid var(--text-3);
+      transform: rotate(45deg);
+      transition: transform var(--dur-2) var(--ease-out);
+    }
+
+    .docs__toc[open] > summary::after {
+      transform: rotate(-135deg);
+    }
+
+    .docs__toc nav {
+      padding: 0 var(--s-4) var(--s-4);
+    }
+
+    .docs__toc a {
+      margin-inline: 0;
+    }
+
+    .docs__pager {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .docs__pager-link--next {
+      grid-column: auto;
+    }
+  }
+</style>
+
+<script>
+  // On small screens the table of contents starts collapsed so the page content comes first.
+  if (window.matchMedia('(max-width: 860px)').matches) {
+    document.querySelector<HTMLDetailsElement>('.docs__toc')?.removeAttribute('open');
+  }
+</script>

@@ -1,0 +1,181 @@
+/*
+ * Design tokens. DESIGN_SYSTEM.md explains each group; change values here, never inline in a component.
+ *
+ * Colours come from the app: the charge-fill blue and the warm "energy" ivory/amber are the popover's own palette
+ * (Sources/PowerFlow/Spec.swift, enum Palette), the charcoal is the popover background, and the navy and cyan are
+ * sampled from the app icon.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Brand constants (same in both appearances) */
+  --brand-navy: #0d1630;
+  --brand-cyan: #19d3ff;
+  --charcoal: #2c2d35;
+  --charcoal-raised: #424146;
+
+  /* Surfaces */
+  --bg: #fbfbfd;
+  --bg-alt: #f3f3f6;
+  --surface: #ffffff;
+  --surface-sunken: #ececf0;
+  --segment-selected: #ffffff;
+  --border: rgb(0 0 0 / 0.09);
+  --border-strong: rgb(0 0 0 / 0.16);
+
+  /* Text */
+  --text: #1d1d1f;
+  --text-2: #4a4a4f;
+  --text-3: #6a6a70;
+
+  /* Accent: the app's charge-fill blue (light variant) */
+  --accent: #0a64cc;
+  --accent-hover: #0857b3;
+  --accent-text: #0a5fc2;
+  --accent-soft: rgb(10 100 204 / 0.1);
+  --on-accent: #ffffff;
+
+  /* Energy: the app's adapter/power accent */
+  --energy: #a8740a;
+  --energy-text: #845b05;
+
+  /* Measurement kinds (badges) */
+  --kind-measured: #1f7a3d;
+  --kind-calculated: #0a5fc2;
+  --kind-estimated: #845b05;
+  --kind-unavailable: #6a6a70;
+
+  /* Glass */
+  --glass-bg: rgb(255 255 255 / 0.66);
+  --glass-bg-strong: rgb(255 255 255 / 0.82);
+  --glass-border: rgb(0 0 0 / 0.08);
+  --glass-highlight: inset 0 1px 0 rgb(255 255 255 / 0.7);
+  --glass-blur: saturate(180%) blur(20px);
+
+  /* Shadows */
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.05), 0 1px 1px rgb(0 0 0 / 0.03);
+  --shadow-2: 0 10px 30px -12px rgb(0 0 0 / 0.16), 0 2px 6px rgb(0 0 0 / 0.04);
+  --shadow-window: 0 40px 80px -28px rgb(0 0 0 / 0.38), 0 12px 24px -12px rgb(0 0 0 / 0.16), 0 0 0 0.5px rgb(0 0 0 / 0.14);
+
+  /* Typography */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --fs-hero: clamp(2.5rem, 1.6rem + 3.4vw, 4rem);
+  --fs-h2: clamp(1.875rem, 1.35rem + 2.2vw, 2.875rem);
+  --fs-h3: clamp(1.1875rem, 1.1rem + 0.35vw, 1.375rem);
+  --fs-lead: clamp(1.0938rem, 1rem + 0.4vw, 1.3125rem);
+  --fs-body: 1.0625rem;
+  --fs-small: 0.9375rem;
+  --fs-caption: 0.8125rem;
+  --fs-micro: 0.75rem;
+
+  --lh-tight: 1.07;
+  --lh-snug: 1.25;
+  --lh-body: 1.6;
+
+  --tracking-display: -0.032em;
+  --tracking-heading: -0.022em;
+  --tracking-body: -0.011em;
+
+  /* Spacing: 4 px base */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+  --s-9: 6rem;
+  --section-y: clamp(4.5rem, 3rem + 6vw, 8rem);
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2rem);
+  --container: 70rem;
+  --container-narrow: 46rem;
+
+  /* Radii */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-pill: 999px;
+
+  /* Motion. No overshoot: like the app's springs, nothing moves past where it ends up. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-1: 160ms;
+  --dur-2: 280ms;
+  --dur-3: 600ms;
+
+  --nav-h: 3.25rem;
+}
+
+/* Dark appearance: followed from the system unless the visitor picked one. Keep the two blocks identical. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #0b0c0f;
+    --bg-alt: #121317;
+    --surface: #17181d;
+    --surface-sunken: #0f1013;
+  --segment-selected: rgb(255 255 255 / 0.16);
+    --segment-selected: rgb(255 255 255 / 0.16);
+    --border: rgb(255 255 255 / 0.09);
+    --border-strong: rgb(255 255 255 / 0.18);
+    --text: #f5f5f7;
+    --text-2: #b4b4ba;
+    --text-3: #93939a;
+    --accent: #1670d4;
+    --accent-hover: #2a80e2;
+    --accent-text: #5aa6ff;
+    --accent-soft: rgb(90 166 255 / 0.13);
+    --on-accent: #ffffff;
+    --energy: #f2e5b9;
+    --energy-text: #f2e5b9;
+    --kind-measured: #5fd38a;
+    --kind-calculated: #5aa6ff;
+    --kind-estimated: #f2d78a;
+    --kind-unavailable: #93939a;
+    --glass-bg: rgb(30 31 37 / 0.6);
+    --glass-bg-strong: rgb(30 31 37 / 0.82);
+    --glass-border: rgb(255 255 255 / 0.1);
+    --glass-highlight: inset 0 1px 0 rgb(255 255 255 / 0.07);
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-2: 0 14px 34px -14px rgb(0 0 0 / 0.7), 0 0 0 0.5px rgb(255 255 255 / 0.06);
+    --shadow-window: 0 40px 90px -30px rgb(0 0 0 / 0.85), 0 0 0 0.5px rgb(255 255 255 / 0.12);
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0b0c0f;
+  --bg-alt: #121317;
+  --surface: #17181d;
+  --surface-sunken: #0f1013;
+  --border: rgb(255 255 255 / 0.09);
+  --border-strong: rgb(255 255 255 / 0.18);
+  --text: #f5f5f7;
+  --text-2: #b4b4ba;
+  --text-3: #93939a;
+  --accent: #1670d4;
+  --accent-hover: #2a80e2;
+  --accent-text: #5aa6ff;
+  --accent-soft: rgb(90 166 255 / 0.13);
+  --on-accent: #ffffff;
+  --energy: #f2e5b9;
+  --energy-text: #f2e5b9;
+  --kind-measured: #5fd38a;
+  --kind-calculated: #5aa6ff;
+  --kind-estimated: #f2d78a;
+  --kind-unavailable: #93939a;
+  --glass-bg: rgb(30 31 37 / 0.6);
+  --glass-bg-strong: rgb(30 31 37 / 0.82);
+  --glass-border: rgb(255 255 255 / 0.1);
+  --glass-highlight: inset 0 1px 0 rgb(255 255 255 / 0.07);
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-2: 0 14px 34px -14px rgb(0 0 0 / 0.7), 0 0 0 0.5px rgb(255 255 255 / 0.06);
+  --shadow-window: 0 40px 90px -30px rgb(0 0 0 / 0.85), 0 0 0 0.5px rgb(255 255 255 / 0.12);
+}

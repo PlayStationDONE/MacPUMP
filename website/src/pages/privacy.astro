@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Privacy" description="MacPUMP keeps your data on your Mac. No account, no tracking and no network connections.">
+  <div class="container container--narrow page">
+    <header class="page__header">
+      <p class="eyebrow">Privacy</p>
+      <h1 class="page__title">Your data stays on your Mac.</h1>
+      <p class="lead">
+        MacPUMP is built to watch your Mac without telling anyone else about it. Here is exactly what it does and doesn’t
+        do.
+      </p>
+    </header>
+
+    <div class="prose">
+      <h2>The app</h2>
+      <ul>
+        <li><strong>No network connections.</strong> MacPUMP doesn’t connect to the internet. The only links it opens are ones you click, such as Help, and they open in your browser.</li>
+        <li><strong>No account, analytics, telemetry or crash reporting.</strong> Nothing about you or your Mac is collected or sent anywhere.</li>
+        <li><strong>Your normal user rights.</strong> MacPUMP installs no helper, daemon or kernel extension and never asks for an administrator password.</li>
+        <li><strong>Read-only.</strong> It reads your Mac’s sensors and never changes a setting, including how your Mac charges.</li>
+      </ul>
+
+      <h2>What’s stored, and where</h2>
+      <p>
+        History is kept in <code>~/Library/Application Support/MacPUMP/</code>. The folder can only be opened by your user
+        account, and so can the files in it. Power history is kept for 7 days by default, or 30 days if you choose.
+      </p>
+      <p>
+        You can turn recording off, and see, export or delete your history at any time from <strong>Settings › Data &amp;
+        Privacy</strong>. Exports are saved only where you choose, and you can hide app names in them. An optional debug
+        log, if you turn it on, also stays on your Mac.
+      </p>
+
+      <h2>Support files</h2>
+      <p>
+        If you ever need help, MacPUMP can make a support file with identifying details removed. You can preview it before
+        saving, and it goes nowhere unless you send it yourself.
+      </p>
+
+      <h2>Notifications</h2>
+      <p>
+        macOS asks once whether MacPUMP may show notifications, the first time you turn on a reminder or alert. If you never
+        use them, you are never asked.
+      </p>
+
+      <h2>This website</h2>
+      <p>
+        This website has no analytics, advertising or tracking cookies. It remembers your choice of light or dark appearance
+        in your browser’s local storage, and that never leaves your device. Like any website, the hosting provider processes
+        basic request information (such as your IP address) to deliver pages.
+      </p>
+    </div>
+  </div>
+</Base>

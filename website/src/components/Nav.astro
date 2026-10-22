@@ -1,0 +1,281 @@
+---
+import { Image } from 'astro:assets';
+import icon from '../assets/app-icon.png';
+import { app, nav, release } from '../config/site';
+
+const path = Astro.url.pathname.replace(/\.html$/, '');
+const isCurrent = (href: string) => !href.includes('#') && (path === href || path.startsWith(href + '/'));
+---
+
+<header class="nav" data-nav>
+  <div class="nav__bar glass">
+    <a class="nav__brand" href="/" aria-label={`${app.name} home`}>
+      <Image src={icon} alt="" width={28} height={28} widths={[28, 56]} sizes="28px" loading="eager" class="nav__icon" />
+      <span>{app.name}</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Main">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="nav__actions">
+      <a class="btn btn--primary nav__cta" href="/#download">
+        {release.downloadUrl ? 'Download' : 'Get MacPUMP'}
+      </a>
+      <button
+        class="nav__menu-btn"
+        type="button"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-button
+      >
+        <span class="visually-hidden">Menu</span>
+        <span class="nav__menu-icon" aria-hidden="true"><span></span><span></span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="nav__sheet glass" id="mobile-menu" data-menu hidden>
+    <nav aria-label="Main (mobile)">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <a class="btn btn--primary btn--lg nav__sheet-cta" href="/#download">
+      {release.downloadUrl ? `Download ${app.name}` : `Get ${app.name}`}
+    </a>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    padding: 0.625rem var(--gutter) 0;
+    pointer-events: none;
+  }
+
+  .nav__bar {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    max-width: var(--container);
+    height: var(--nav-h);
+    margin-inline: auto;
+    padding: 0 0.4rem 0 0.9rem;
+    border-radius: var(--r-pill);
+    box-shadow: var(--glass-highlight), var(--shadow-1);
+    transition:
+      box-shadow var(--dur-2) var(--ease-out),
+      background-color var(--dur-2) var(--ease-out);
+  }
+
+  :global(.nav.is-scrolled) .nav__bar {
+    background: var(--glass-bg-strong);
+    box-shadow: var(--glass-highlight), var(--shadow-2);
+  }
+
+  .nav__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--text);
+    font-weight: 650;
+    font-size: 1.0625rem;
+    letter-spacing: -0.02em;
+  }
+
+  .nav__brand:hover {
+    text-decoration: none;
+  }
+
+  .nav__icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .nav__links {
+    flex: 1;
+  }
+
+  .nav__links ul {
+    display: flex;
+    justify-content: center;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav__links a {
+    display: block;
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--r-pill);
+    color: var(--text-2);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    transition:
+      color var(--dur-1) var(--ease-out),
+      background-color var(--dur-1) var(--ease-out);
+  }
+
+  .nav__links a:hover {
+    color: var(--text);
+    background: color-mix(in srgb, var(--text) 6%, transparent);
+    text-decoration: none;
+  }
+
+  .nav__links a[aria-current='page'] {
+    color: var(--text);
+    background: color-mix(in srgb, var(--text) 8%, transparent);
+  }
+
+  .nav__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+  }
+
+  .nav__cta {
+    --btn-h: 2.25rem;
+    padding: 0 1rem;
+    font-size: var(--fs-small);
+  }
+
+  .nav__menu-btn {
+    display: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .nav__menu-icon {
+    position: relative;
+    display: block;
+    width: 18px;
+    height: 12px;
+    margin: auto;
+  }
+
+  .nav__menu-icon span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1.75px;
+    border-radius: 2px;
+    background: currentColor;
+    transition:
+      transform var(--dur-2) var(--ease-out),
+      top var(--dur-2) var(--ease-out);
+  }
+
+  .nav__menu-icon span:first-child {
+    top: 2px;
+  }
+
+  .nav__menu-icon span:last-child {
+    top: 8.5px;
+  }
+
+  [aria-expanded='true'] .nav__menu-icon span:first-child {
+    top: 5.25px;
+    transform: rotate(45deg);
+  }
+
+  [aria-expanded='true'] .nav__menu-icon span:last-child {
+    top: 5.25px;
+    transform: rotate(-45deg);
+  }
+
+  .nav__sheet {
+    pointer-events: auto;
+    max-width: var(--container);
+    margin: var(--s-2) auto 0;
+    padding: var(--s-3);
+    border-radius: var(--r-lg);
+    background: var(--glass-bg-strong);
+    transform-origin: top center;
+    animation: sheet-in var(--dur-2) var(--ease-out);
+  }
+
+  .nav__sheet ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav__sheet a:not(.btn) {
+    display: block;
+    padding: 0.85rem var(--s-3);
+    border-radius: var(--r-sm);
+    color: var(--text);
+    font-size: 1.125rem;
+    font-weight: 550;
+  }
+
+  .nav__sheet li + li a {
+    border-top: 1px solid var(--border);
+  }
+
+  .nav__sheet a:not(.btn):hover {
+    text-decoration: none;
+    background: color-mix(in srgb, var(--text) 5%, transparent);
+  }
+
+  .nav__sheet-cta {
+    width: 100%;
+    margin-top: var(--s-3);
+  }
+
+  @keyframes sheet-in {
+    from {
+      opacity: 0;
+      transform: translateY(-6px) scale(0.98);
+    }
+  }
+
+  @media (max-width: 860px) {
+    .nav__links,
+    .nav__cta {
+      display: none;
+    }
+
+    .nav__menu-btn {
+      display: block;
+    }
+
+    .nav__bar {
+      justify-content: space-between;
+    }
+  }
+
+  @media (min-width: 861px) {
+    .nav__sheet {
+      display: none;
+    }
+  }
+</style>

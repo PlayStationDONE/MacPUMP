@@ -1,0 +1,48 @@
+---
+import Placeholder from './Placeholder.astro';
+---
+
+<section class="section section--alt" id="history" aria-labelledby="history-title">
+  <div class="container split">
+    <div class="split__copy" data-reveal>
+      <p class="eyebrow">History and insights</p>
+      <h2 class="h2" id="history-title">See how your power use changes over time.</h2>
+      <p class="lead">
+        MacPUMP keeps a private record on your Mac, so you can look back at the last hour, yesterday or last week and
+        see what your Mac actually used.
+      </p>
+      <ul class="check-list">
+        <li>
+          <strong>From 15 minutes to 30 days.</strong> Energy used, average, peak and minimum, with a chart and an
+          average line.
+        </li>
+        <li><strong>Battery history and a health trend,</strong> so you can see how your battery is ageing.</li>
+        <li>
+          <strong>A resting-power estimate:</strong> roughly what your Mac uses when it’s doing very little.
+        </li>
+        <li>
+          <strong>Gaps stay gaps.</strong> When your Mac was asleep or off, the chart is left blank and never counted as
+          0 W.
+        </li>
+        <li><strong>A weekly report and CSV export</strong> of every history, ready for Numbers or Excel.</li>
+      </ul>
+      <p class="caption history__note">
+        History is kept for 7 days by default, or 30 if you choose. Recording can be turned off, and you can delete it at
+        any time.
+      </p>
+    </div>
+
+    <div class="split__media" data-reveal style="--reveal-delay:80ms">
+      <Placeholder
+        location="Dashboard › Power History"
+        shows="Summary cards for energy, average, peak and minimum above the power chart, for one of the ranges from 15 minutes to 30 days."
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .history__note {
+    margin-top: var(--s-5);
+  }
+</style>

@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import { legal } from '../config/site';
+---
+
+<Base title="Licence" description="How MacPUMP is licensed, and the open-source software it includes.">
+  <div class="container container--narrow page">
+    <header class="page__header">
+      <p class="eyebrow">Licence</p>
+      <h1 class="page__title">Licence and credits</h1>
+    </header>
+
+    <div class="prose">
+      <h2>MacPUMP</h2>
+      <p>
+        MacPUMP is proprietary software. All rights reserved. You may not copy, redistribute, modify, sell or publish the
+        app or its source code without the written permission of the copyright holder. The app is provided “as is”, without
+        warranty of any kind. Nothing here limits rights you have by law that can’t be excluded.
+      </p>
+
+      <h2>{legal.thirdParty.name}</h2>
+      <p>
+        MacPUMP began as a fork of <a href={legal.thirdParty.url} rel="noopener">{legal.thirdParty.name}</a> by
+        {legal.thirdParty.author}. The original menu bar panel, the SMC reader and the power-flow layout are his work. That
+        code, and the parts of MacPUMP derived from it, remain under the {legal.thirdParty.licence}:
+      </p>
+      <pre tabindex="0" aria-label="MIT License text"><code>MIT License
+
+Copyright (c) 2026 Dylan
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</code></pre>
+
+      <h2>Earlier versions</h2>
+      <p>
+        Versions 1.1.0 and earlier were published under the MIT License. Anyone who received those versions under that
+        licence keeps the rights it gives them.
+      </p>
+
+      <h2>Apple frameworks and trademarks</h2>
+      <p>
+        MacPUMP uses only frameworks that ship with macOS and has no third-party package dependencies. Mac, macOS and Apple
+        silicon are trademarks of Apple Inc., registered in the U.S. and other countries. MacPUMP is not affiliated with or
+        endorsed by Apple.
+      </p>
+    </div>
+  </div>
+</Base>

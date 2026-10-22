@@ -1,0 +1,268 @@
+---
+import { Image } from 'astro:assets';
+import icon from '../assets/app-icon.png';
+import { app, release, requirements } from '../config/site';
+
+const date = new Date(release.date + 'T12:00:00Z').toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+const steps = [
+  {
+    title: 'Unzip and move',
+    text: 'Double-click the ZIP, then drag MacPUMP into your Applications folder.',
+  },
+  {
+    title: 'Open it once',
+    text: 'macOS says it can’t check the app, because it isn’t notarized yet. Open System Settings › Privacy & Security, click Open Anyway and confirm. You only do this once.',
+  },
+  {
+    title: 'Look in the menu bar',
+    text: 'Click the MacPUMP icon, or press ⌥⌘P from anywhere. Pick Lite or Advanced, and you’re set.',
+  },
+];
+---
+
+<section class="section download" id="download" aria-labelledby="download-title">
+  <div class="container">
+    <div class="download__card" data-reveal>
+      <div class="download__intro">
+        <Image src={icon} alt="" width={96} height={96} widths={[96, 192]} sizes="96px" class="download__icon" />
+        <h2 class="h2" id="download-title">Get {app.name}</h2>
+        <p class="lead">No account and no tracking. Just your Mac’s power, in plain English.</p>
+
+        <div class="download__action">
+          {
+            release.downloadUrl ? (
+              <a class="btn btn--primary btn--lg" href={release.downloadUrl} download>
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path
+                    d="M10 3v10m0 0-4-4m4 4 4-4M4 16h12"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                Download {app.name} {release.version}
+              </a>
+            ) : (
+              <>
+                <span class="btn btn--lg" aria-disabled="true" role="link" aria-describedby="download-status">
+                  Download not available yet
+                </span>
+                <p class="caption download__status" id="download-status">
+                  {app.name} {release.version} is a private pre-release for now. The public download will appear right
+                  here as soon as it’s ready.
+                </p>
+              </>
+            )
+          }
+        </div>
+      </div>
+
+      <dl class="download__facts glass">
+        <div>
+          <dt>Version</dt>
+          <dd>
+            <span>{release.version}</span>
+            {release.channel === 'pre-release' && <span class="badge badge--demo">Pre-release</span>}
+          </dd>
+        </div>
+        <div>
+          <dt>Released</dt>
+          <dd>{date}</dd>
+        </div>
+        <div>
+          <dt>Requires</dt>
+          <dd>{requirements.macOS}</dd>
+        </div>
+        <div>
+          <dt>Built for</dt>
+          <dd>{release.architecture}</dd>
+        </div>
+        <div class="download__wide">
+          <dt>Signing</dt>
+          <dd>{release.signing.summary}</dd>
+        </div>
+        {
+          release.sha256 && release.downloadUrl && (
+            <div class="download__wide">
+              <dt>SHA-256 of {release.fileName}</dt>
+              <dd class="measure download__hash">{release.sha256}</dd>
+            </div>
+          )
+        }
+      </dl>
+    </div>
+
+    <div class="install" data-reveal>
+      <h3 class="h3">Installing {app.name}</h3>
+      <ol class="install__steps">
+        {
+          steps.map((s, i) => (
+            <li>
+              <span class="install__num measure" aria-hidden="true">
+                {i + 1}
+              </span>
+              <div>
+                <h4>{s.title}</h4>
+                <p class="muted">{s.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="caption install__more">
+        {`${requirements.testedOn} Intel Macs are not supported by the downloadable build. `}
+        <a href="/docs/getting-started">Full installation guide</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .download__card {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: clamp(2rem, 1rem + 4vw, 4rem);
+    align-items: center;
+    padding: clamp(1.75rem, 1rem + 3.5vw, 3.75rem);
+    border-radius: var(--r-xl);
+    border: 1px solid var(--border);
+    background:
+      radial-gradient(70% 90% at 100% 0%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
+      radial-gradient(50% 70% at 0% 100%, color-mix(in srgb, var(--brand-cyan) 7%, transparent), transparent 70%),
+      var(--surface);
+    box-shadow: var(--shadow-2);
+    overflow: hidden;
+  }
+
+  .download__icon {
+    width: 96px;
+    height: 96px;
+    margin: -10px 0 var(--s-3) -10px;
+  }
+
+  .download__intro .lead {
+    margin-top: var(--s-3);
+    max-width: 30rem;
+  }
+
+  .download__action {
+    margin-top: var(--s-6);
+  }
+
+  .download__status {
+    max-width: 26rem;
+    margin-top: var(--s-3);
+  }
+
+  .download__facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-4) var(--s-5);
+    margin: 0;
+    padding: var(--s-5);
+    border-radius: var(--r-lg);
+  }
+
+  .download__facts dt {
+    font-size: var(--fs-caption);
+    color: var(--text-3);
+  }
+
+  .download__facts dd {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-2);
+    margin-top: 2px;
+    font-size: var(--fs-small);
+    font-weight: 550;
+    color: var(--text);
+  }
+
+  .download__wide {
+    grid-column: 1 / -1;
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--border);
+  }
+
+  .download__wide dd {
+    font-weight: 450;
+    color: var(--text-2);
+  }
+
+  .download__hash {
+    font-size: var(--fs-micro) !important;
+    word-break: break-all;
+  }
+
+  .install {
+    margin-top: var(--s-8);
+  }
+
+  .install__steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--s-6);
+    margin: var(--s-5) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .install__steps li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--s-4);
+    align-items: start;
+  }
+
+  .install__num {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent-text);
+    font-size: var(--fs-small);
+    font-weight: 600;
+  }
+
+  .install__steps h4 {
+    font-size: 1.0625rem;
+    letter-spacing: var(--tracking-heading);
+    font-weight: 600;
+  }
+
+  .install__steps p {
+    margin-top: var(--s-1);
+    font-size: var(--fs-small);
+  }
+
+  .install__more {
+    margin-top: var(--s-6);
+  }
+
+  @media (max-width: 900px) {
+    .download__card {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .install__steps {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--s-5);
+    }
+  }
+
+  @media (max-width: 420px) {
+    .download__facts {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

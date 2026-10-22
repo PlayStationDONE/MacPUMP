@@ -1,0 +1,103 @@
+---
+const facts = [
+  { title: 'No network', text: 'MacPUMP makes no network connections. The only links it opens are ones you click.' },
+  { title: 'No tracking', text: 'No account, no analytics, no telemetry and no crash reporting.' },
+  {
+    title: 'No admin access',
+    text: 'Runs with your normal user rights. No helper, daemon or kernel extension, and no administrator password.',
+  },
+  {
+    title: 'Your folder, your files',
+    text: 'History is kept in a folder only you can read. See it, export it or delete it from Settings.',
+  },
+];
+---
+
+<section class="section section--band privacy" id="privacy" aria-labelledby="privacy-title">
+  <div class="container">
+    <div class="privacy__head" data-reveal>
+      <p class="eyebrow privacy__eyebrow">Private by design</p>
+      <h2 class="h2" id="privacy-title">What happens on your Mac stays on your Mac.</h2>
+    </div>
+    <ul class="privacy__facts">
+      {
+        facts.map((f, i) => (
+          <li data-reveal style={`--reveal-delay:${i * 60}ms`}>
+            <h3 class="h3">{f.title}</h3>
+            <p>{f.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="privacy__more" data-reveal>
+      <a class="link-arrow" href="/privacy">Read the privacy details</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  /* A deliberate dark band in the app's own charcoal, in both appearances. */
+  .privacy {
+    background: var(--charcoal);
+    color: #f5f5f7;
+  }
+
+  :global([data-theme='dark']) .privacy {
+    background: #1b1c22;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .privacy {
+      background: #1b1c22;
+    }
+  }
+
+  .privacy__eyebrow {
+    color: #f2e5b9;
+  }
+
+  .privacy__head {
+    max-width: 40rem;
+  }
+
+  .privacy__facts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--s-6);
+    margin: var(--s-8) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .privacy__facts li {
+    padding-top: var(--s-4);
+    border-top: 1px solid rgb(255 255 255 / 0.16);
+  }
+
+  .privacy__facts p {
+    margin-top: var(--s-2);
+    font-size: var(--fs-small);
+    color: rgb(255 255 255 / 0.72);
+  }
+
+  .privacy__more {
+    margin-top: var(--s-7);
+  }
+
+  .privacy__more a {
+    color: #8cc2ff;
+  }
+
+  @media (max-width: 900px) {
+    .privacy__facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 520px) {
+    .privacy__facts {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--s-5);
+    }
+  }
+</style>

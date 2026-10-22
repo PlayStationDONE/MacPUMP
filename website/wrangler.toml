@@ -1,0 +1,5 @@
+# Cloudflare Pages project configuration, used by `wrangler pages deploy` and the GitHub Actions workflow.
+# Credentials are never stored here: they come from the CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID secrets.
+name = "macpump"
+compatibility_date = "2026-10-01"
+pages_build_output_dir = "dist"

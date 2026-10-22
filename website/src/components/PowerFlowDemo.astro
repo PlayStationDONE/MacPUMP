@@ -1,0 +1,393 @@
+---
+import { demoStates } from '../data/content';
+
+const initial = demoStates[0];
+---
+
+<div class="demo" data-demo data-states={JSON.stringify(demoStates)}>
+  <div class="demo__controls">
+    <div class="segmented glass demo__segmented" role="group" aria-label="Choose a sample situation">
+      {
+        demoStates.map((s, i) => (
+          <button type="button" data-state={s.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+            {s.label}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="demo__panel">
+    <div class="demo__tag">
+      <span class="badge badge--demo">Demonstration · sample values, not a live reading</span>
+    </div>
+
+    <div class="demo__pill" aria-hidden="true">
+      <div class="demo__pill-fill" data-pill style={`width:${initial.percent}%`}>
+        <span class="measure" data-percent>{initial.percent}%</span>
+      </div>
+    </div>
+
+    <svg
+      class="demo__svg"
+      viewBox="0 0 340 214"
+      role="img"
+      aria-labelledby="demo-svg-title"
+      data-svg
+    >
+      <title id="demo-svg-title" data-svg-title>Power-flow diagram for the sample situation: {initial.title}.</title>
+      <g data-ribbons>
+        <path data-ribbon="aM" class="demo__ribbon"></path>
+        <path data-ribbon="aB" class="demo__ribbon"></path>
+        <path data-ribbon="bM" class="demo__ribbon"></path>
+      </g>
+      <g data-nodes>
+        <g data-node="adapter">
+          <rect class="demo__node" rx="14" width="46"></rect>
+          <path class="demo__energy" d="M-3 -7v4M3 -7v4M-6 -3h12v3a6 6 0 0 1-12 0zM0 6v4"></path>
+        </g>
+        <g data-node="batterySrc">
+          <rect class="demo__node" rx="12" width="46"></rect>
+          <rect class="demo__batt" x="-9" y="-5" width="16" height="10" rx="2.5"></rect>
+          <rect class="demo__batt-tip" x="8" y="-2" width="2" height="4" rx="1"></rect>
+        </g>
+        <g data-node="mac">
+          <rect class="demo__node" rx="14" width="46"></rect>
+          <path class="demo__laptop" d="M-9 -15h18v11h-18zM-12 -2h24"></path>
+          <text class="demo__mac-label measure" y="14" text-anchor="middle" data-mac-label></text>
+        </g>
+        <g data-node="batterySink">
+          <rect class="demo__node" rx="12" width="46"></rect>
+          <rect class="demo__batt" x="-9" y="-5" width="16" height="10" rx="2.5"></rect>
+          <rect class="demo__batt-tip" x="8" y="-2" width="2" height="4" rx="1"></rect>
+        </g>
+      </g>
+      <g data-labels>
+        <text class="demo__label measure" text-anchor="middle" data-label="aM"></text>
+        <text class="demo__label measure" text-anchor="middle" data-label="aB"></text>
+        <text class="demo__label measure" text-anchor="middle" data-label="bM"></text>
+      </g>
+    </svg>
+
+    <div class="demo__runtime">
+      <span class="demo__runtime-icon" aria-hidden="true"></span>
+      <strong class="measure" data-runtime>{initial.runtime}</strong>
+      <span>left if you unplug</span>
+    </div>
+  </div>
+
+  <div class="demo__explain" aria-live="polite">
+    <p class="demo__title" data-title>{initial.title}</p>
+    <p class="caption demo__note" data-note>{initial.note}</p>
+  </div>
+</div>
+
+<style>
+  .demo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-4);
+    justify-items: center;
+  }
+
+  .demo__controls {
+    max-width: 100%;
+  }
+
+  .demo__segmented {
+    box-shadow: var(--glass-highlight), var(--shadow-1);
+  }
+
+  /* Four choices don't fit in one row on a phone: show them as a 2 × 2 grid instead of scrolling. */
+  @media (max-width: 520px) {
+    .demo__controls {
+      width: min(100%, 400px);
+    }
+
+    .demo__segmented {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      width: 100%;
+      border-radius: var(--r-lg);
+    }
+
+    .demo__segmented button {
+      padding: 0 0.5rem;
+      border-radius: calc(var(--r-lg) - 3px);
+    }
+  }
+
+  /* The panel copies the app's popover: always its dark charcoal, in either appearance. */
+  .demo__panel {
+    width: min(100%, 400px);
+    padding: 18px 18px 16px;
+    border-radius: 22px;
+    background: var(--charcoal);
+    color: rgb(255 255 255 / 0.92);
+    box-shadow: var(--shadow-window);
+  }
+
+  .demo__tag {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+
+  .demo__tag .badge {
+    color: rgb(255 255 255 / 0.72);
+    font-weight: 550;
+  }
+
+  .demo__pill {
+    height: 30px;
+    border-radius: var(--r-pill);
+    background: #444348;
+    overflow: hidden;
+  }
+
+  .demo__pill-fill {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    min-width: 64px;
+    padding-left: 14px;
+    border-radius: var(--r-pill);
+    background: #1670d4;
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 650;
+    transition: width 460ms var(--ease-out);
+  }
+
+  .demo__svg {
+    width: 100%;
+    height: auto;
+    margin-top: 16px;
+    overflow: visible;
+  }
+
+  .demo__ribbon {
+    fill: #424146;
+  }
+
+  .demo__node {
+    fill: #424146;
+  }
+
+  .demo__energy {
+    fill: none;
+    stroke: #f2e5b9;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .demo__batt {
+    fill: #c6bcb0;
+    stroke: #e9e9eb;
+    stroke-width: 1.5;
+  }
+
+  .demo__batt-tip {
+    fill: #e9e9eb;
+  }
+
+  .demo__laptop {
+    fill: none;
+    stroke: rgb(255 255 255 / 0.75);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .demo__label,
+  .demo__mac-label {
+    fill: rgb(255 255 255 / 0.92);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+
+  .demo__mac-label {
+    font-size: 13.5px;
+  }
+
+  .demo__runtime {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: var(--r-pill);
+    background: #424146;
+    font-size: 0.875rem;
+    color: rgb(255 255 255 / 0.6);
+  }
+
+  .demo__runtime strong {
+    color: rgb(255 255 255 / 0.95);
+    font-size: 1.0625rem;
+    font-family: var(--font-sans);
+    font-weight: 650;
+    margin-right: auto;
+  }
+
+  .demo__runtime-icon {
+    align-self: center;
+    width: 20px;
+    height: 11px;
+    border: 1.5px solid #e9e9eb;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #c6bcb0 45%, transparent 45%);
+    background-clip: content-box;
+    padding: 1.5px;
+  }
+
+  .demo__explain {
+    width: min(100%, 400px);
+    min-height: 4.5rem;
+    text-align: center;
+  }
+
+  .demo__title {
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .demo__note {
+    margin-top: var(--s-1);
+    font-size: var(--fs-small);
+    color: var(--text-2);
+  }
+</style>
+
+<script>
+  type DemoState = { id: string; title: string; note: string; percent: number; adapter: number; battery: number; runtime: string };
+  type Flows = { aM: number; aB: number; bM: number };
+
+  const root = document.querySelector<HTMLElement>('[data-demo]');
+  if (root) {
+    const states = JSON.parse(root.dataset.states ?? '[]') as DemoState[];
+    const q = <T extends Element>(sel: string) => root.querySelector<T>(sel)!;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    // Battery power is positive while charging, negative while discharging (the app's convention).
+    const flowsFor = (s: DemoState): Flows => ({
+      aM: s.battery > 0 ? s.adapter - s.battery : s.adapter,
+      aB: Math.max(s.battery, 0),
+      bM: Math.max(-s.battery, 0),
+    });
+
+    // Geometry, in the SVG's own units. The busier column fills the height; the other is centred on the same axis,
+    // as in the app's SankeyLayout.
+    const H = 194, TOP = 10, NODE_W = 46, LEFT_X = 0, RIGHT_X = 294, GAP = 14;
+    const R1 = LEFT_X + NODE_W + 6, R2 = RIGHT_X - 6;
+    const presence = (v: number) => Math.min(Math.max(v / 3, 0), 1);
+    const fmt = (w: number) => `${w.toFixed(2)} W`;
+
+    function ribbon(y1a: number, y1b: number, y2a: number, y2b: number) {
+      const mx = (R1 + R2) / 2;
+      return `M${R1},${y1a} C${mx},${y1a} ${mx},${y2a} ${R2},${y2a} L${R2},${y2b} C${mx},${y2b} ${mx},${y1b} ${R1},${y1b} Z`;
+    }
+
+    function placeNode(name: string, x: number, y0: number, h: number, minH: number, value: number) {
+      const g = q<SVGGElement>(`[data-node="${name}"]`);
+      const rect = g.querySelector<SVGRectElement>('.demo__node')!;
+      const cardH = Math.max(h, minH);
+      const cy = y0 + h / 2;
+      rect.setAttribute('x', String(x));
+      rect.setAttribute('y', String(cy - cardH / 2));
+      rect.setAttribute('height', String(cardH));
+      g.querySelectorAll(':scope > :not(.demo__node)').forEach((el) =>
+        el.setAttribute('transform', `translate(${x + NODE_W / 2} ${cy})`),
+      );
+      g.style.opacity = String(presence(value));
+    }
+
+    function label(name: keyof Flows, value: number, y1a: number, y1b: number, y2a: number, y2b: number) {
+      const t = q<SVGTextElement>(`[data-label="${name}"]`);
+      const mid = ((y1a + y1b) / 2 + (y2a + y2b) / 2) / 2;
+      const thick = (y1b - y1a + (y2b - y2a)) / 2;
+      // Thin ribbons carry their label just above, where it stays readable.
+      t.setAttribute('x', String((R1 + R2) / 2));
+      t.setAttribute('y', String(thick >= 18 ? mid + 4.5 : Math.min(y1a, y2a) - 6));
+      t.textContent = fmt(value);
+      t.style.opacity = String(presence(value));
+    }
+
+    function draw(f: Flows) {
+      const adapterOut = f.aM + f.aB, mac = f.aM + f.bM;
+      const total = Math.max(adapterOut + f.bM, 0.001);
+      const leftGap = GAP * Math.min(presence(adapterOut), presence(f.bM));
+      const rightGap = GAP * Math.min(presence(mac), presence(f.aB));
+      const scale = (H - Math.max(leftGap, rightGap)) / total;
+
+      const hA = adapterOut * scale, hBs = f.bM * scale, hM = mac * scale, hBk = f.aB * scale;
+      const yA = TOP + (H - (hA + leftGap + hBs)) / 2, yBs = yA + hA + leftGap;
+      const yM = TOP + (H - (hM + rightGap + hBk)) / 2, yBk = yM + hM + rightGap;
+
+      placeNode('adapter', LEFT_X, yA, hA, 40, adapterOut);
+      placeNode('batterySrc', LEFT_X, yBs, hBs, 26, f.bM);
+      placeNode('mac', RIGHT_X, yM, hM, 64, mac);
+      placeNode('batterySink', RIGHT_X, yBk, hBk, 26, f.aB);
+
+      const aM = [yA, yA + f.aM * scale, yM, yM + f.aM * scale] as const;
+      const aB = [yA + f.aM * scale, yA + hA, yBk, yBk + hBk] as const;
+      const bM = [yBs, yBs + hBs, yM + f.aM * scale, yM + hM] as const;
+      q('[data-ribbon="aM"]').setAttribute('d', ribbon(...aM));
+      q('[data-ribbon="aB"]').setAttribute('d', ribbon(...aB));
+      q('[data-ribbon="bM"]').setAttribute('d', ribbon(...bM));
+      label('aM', f.aM, ...aM);
+      label('aB', f.aB, ...aB);
+      label('bM', f.bM, ...bM);
+      // The app truncates the Mac's total on its card (104.69 W shows as 104W).
+      q('[data-mac-label]').textContent = `${Math.floor(mac + 1e-6)}W`;
+    }
+
+    let current = flowsFor(states[0]);
+    let frame = 0;
+    draw(current);
+
+    // An ease-out of about the same length as the app's critically damped spring (fully settled in ~470 ms).
+    function animateTo(target: Flows) {
+      cancelAnimationFrame(frame);
+      if (reduceMotion.matches) {
+        current = target;
+        draw(current);
+        return;
+      }
+      const from = { ...current };
+      const start = performance.now();
+      const DURATION = 470;
+      const step = (now: number) => {
+        const t = Math.min((now - start) / DURATION, 1);
+        const e = 1 - Math.pow(1 - t, 3);
+        current = {
+          aM: from.aM + (target.aM - from.aM) * e,
+          aB: from.aB + (target.aB - from.aB) * e,
+          bM: from.bM + (target.bM - from.bM) * e,
+        };
+        draw(current);
+        if (t < 1) frame = requestAnimationFrame(step);
+      };
+      frame = requestAnimationFrame(step);
+    }
+
+    const buttons = root.querySelectorAll<HTMLButtonElement>('[data-state]');
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        const s = states.find((x) => x.id === b.dataset.state);
+        if (!s) return;
+        buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        q<HTMLElement>('[data-pill]').style.width = `${s.percent}%`;
+        q('[data-percent]').textContent = `${s.percent}%`;
+        q('[data-runtime]').textContent = s.runtime;
+        q('[data-title]').textContent = s.title;
+        q('[data-note]').textContent = s.note;
+        q('[data-svg-title]').textContent = `Power-flow diagram for the sample situation: ${s.title}.`;
+        animateTo(flowsFor(s));
+      }),
+    );
+  }
+</script>
