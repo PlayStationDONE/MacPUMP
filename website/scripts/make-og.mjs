@@ -1,4 +1,4 @@
-// Renders public/og.png (1200 × 630), the social preview image, from the real app icon and popover render.
+// Renders public/og.png (1200 × 630), the social preview image, from the real app icon and popover screenshot.
 // Run after changing the icon or the headline: `node scripts/make-og.mjs`.
 
 import { existsSync, readFileSync } from 'node:fs';
@@ -8,7 +8,7 @@ import { chromium } from 'playwright';
 const root = fileURLToPath(new URL('..', import.meta.url));
 const b64 = (p) => readFileSync(root + p).toString('base64');
 const icon = b64('src/assets/app-icon.png');
-const popover = b64('src/assets/screens/popover.png');
+const popover = b64('src/assets/screens/app-popover.png');
 
 const html = `<!doctype html><html><head><style>
   * { box-sizing: border-box; margin: 0; }
@@ -19,9 +19,8 @@ const html = `<!doctype html><html><head><style>
   .name { margin-top: 18px; font-size: 26px; font-weight: 600; color: #b4b4ba; }
   h1 { margin-top: 10px; font-size: 64px; line-height: 1.05; letter-spacing: -0.03em; font-weight: 700; }
   p { margin-top: 22px; font-size: 25px; color: #b4b4ba; line-height: 1.4; }
-  .shot { justify-self: end; width: 380px; padding: 12px; border-radius: 20px; background: #2c2d35;
-    box-shadow: 0 30px 60px -20px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.1); transform: translateY(70px); }
-  .shot img { width: 100%; border-radius: 8px; display: block; }
+  .shot { justify-self: end; width: 340px; transform: translateY(40px); filter: drop-shadow(0 30px 40px rgba(0,0,0,.7)); }
+  .shot img { width: 100%; display: block; }
 </style></head><body>
   <div>
     <img class="icon" src="data:image/png;base64,${icon}" alt="">

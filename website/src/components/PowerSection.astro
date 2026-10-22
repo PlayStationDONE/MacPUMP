@@ -1,17 +1,5 @@
 ---
-import { Image } from 'astro:assets';
 import PowerFlowDemo from './PowerFlowDemo.astro';
-import heavy from '../assets/screens/state-load-exceeds-adapter.png';
-import charging from '../assets/screens/state-charging.png';
-import onBattery from '../assets/screens/state-on-battery.png';
-import full from '../assets/screens/state-fully-charged.png';
-
-const renders = [
-  { src: heavy, label: 'Plugged in, load exceeds the adapter', alt: 'Adapter 87.77 W and battery 16.92 W feeding a Mac using 104 W.' },
-  { src: charging, label: 'Charging', alt: 'Adapter feeding the Mac with 35.25 W and the battery with 26.15 W.' },
-  { src: onBattery, label: 'On battery', alt: 'Battery alone feeding the Mac with 14.32 W.' },
-  { src: full, label: 'Plugged in, fully charged', alt: 'Adapter alone feeding the Mac with 19.04 W; battery at 100 percent.' },
-];
 ---
 
 <section class="section section--alt power" id="power" aria-labelledby="power-title">
@@ -67,26 +55,6 @@ const renders = [
       </div>
     </div>
 
-    <div class="renders" data-reveal>
-      <div class="renders__head">
-        <h3 class="h3">The same four situations, drawn by MacPUMP</h3>
-        <p class="caption">Rendered by the app from its built-in sample readings.</p>
-      </div>
-      <ul class="renders__row" tabindex="0" aria-label="MacPUMP renders of the four situations">
-        {
-          renders.map((r) => (
-            <li>
-              <figure>
-                <div class="shot renders__shot">
-                  <Image src={r.src} alt={`MacPUMP popover, ${r.label.toLowerCase()}: ${r.alt}`} widths={[280, 420, 680]} sizes="(max-width: 700px) 72vw, 260px" />
-                </div>
-                <figcaption class="caption">{r.label}</figcaption>
-              </figure>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
   </div>
 </section>
 
@@ -111,45 +79,6 @@ const renders = [
     top: calc(var(--nav-h) + var(--s-6));
   }
 
-  .renders {
-    margin-top: clamp(4rem, 3rem + 4vw, 6.5rem);
-  }
-
-  .renders__head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--s-2) var(--s-5);
-    margin-bottom: var(--s-5);
-  }
-
-  .renders__row {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--s-5);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .renders__shot {
-    border-radius: var(--r-md);
-    box-shadow: var(--shadow-2);
-    transition:
-      transform var(--dur-2) var(--ease-out),
-      box-shadow var(--dur-2) var(--ease-out);
-  }
-
-  .renders__row li:hover .renders__shot {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-window);
-  }
-
-  .renders figcaption {
-    margin-top: var(--s-3);
-  }
-
   @media (max-width: 960px) {
     .power__grid {
       grid-template-columns: minmax(0, 1fr);
@@ -160,20 +89,4 @@ const renders = [
     }
   }
 
-  @media (max-width: 760px) {
-    .renders__row {
-      grid-template-columns: none;
-      grid-auto-flow: column;
-      grid-auto-columns: min(72vw, 280px);
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      margin-inline: calc(var(--gutter) * -1);
-      padding: var(--s-2) var(--gutter) var(--s-4);
-      scroll-padding-inline: var(--gutter);
-    }
-
-    .renders__row li {
-      scroll-snap-align: start;
-    }
-  }
 </style>

@@ -5,14 +5,14 @@ order: 4
 group: Using MacPUMP
 ---
 
-The **Draw by app** list in the popover and the **Apps** tab in the dashboard rank your apps by the power they’re using.
+The **App power (estimated)** list in the popover and the **Apps** tab in the dashboard rank your apps by the power they’re using.
 
 ## Reading the list
 
 - **One row per app.** Helper processes are added to the app that started them, so a browser’s many processes appear as one row.
 - **The bars compare apps with each other.** They don’t include the last row, which would otherwise flatten every bar.
-- **Not attributed (residual)** is everything that can’t be put down to a single app: the display, the graphics chip, macOS’s own background work and more. It is often the biggest number on screen, and it is **not** an idle figure. A large value means your Mac is busy.
-- **App history** in the Apps tab covers the last 15 minutes to 7 days.
+- **Not assigned to apps** is everything that can’t be put down to a single app: the display, the graphics chip, macOS’s own background work and more. It is often the biggest number on screen, and it is **not** an idle figure. A large value means your Mac is busy.
+- **App history** in the Apps tab covers the last 15 minutes up to 30 days, depending on how long you keep history.
 
 ## How it’s estimated
 

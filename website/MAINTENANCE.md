@@ -5,13 +5,13 @@ the site is safe to deploy.
 
 ## When you publish a new release
 
-1. **Attach the app ZIP to a *public* download location.** The application repository is private, so its GitHub
-   release assets need a login and must **not** be linked from the site. See "Making the download public" below.
+1. **Publish the GitHub release** in this repository (`PlayStationDONE/MacPUMP`) with the `.dmg` and `.zip` attached.
+   Releases here are public, so the asset links work for everyone.
 2. **Edit [`src/config/site.ts`](src/config/site.ts) → `release`:**
    - `version`, `date` (`YYYY-MM-DD`), and `channel` (`'release'` once it isn't a pre-release).
-   - `downloadUrl`: the public HTTPS link to the ZIP. While it's `null`, the site says the download isn't available
-     yet; it never shows a broken button.
-   - `fileName` and `sha256` (`shasum -a 256 MacPUMP-x.y.z-macOS-arm64.zip`).
+   - `downloadUrl`, `fileName` and `sha256` for the main download (the `.dmg`), and `alternate` for the ZIP. The
+     SHA-256 values are in the release notes and in each asset's digest on the release page. While `downloadUrl` is
+     `null`, the site says the download isn't available yet; it never shows a broken button.
    - `signing`: change `summary` and set `notarized: true` **only** once the build really is Developer ID signed and
      notarized. Then also update the "Open it once" install step in
      [`DownloadSection.astro`](src/components/DownloadSection.astro), the FAQ entry about the macOS warning in
@@ -27,38 +27,27 @@ Feature text lives in one place, [`src/data/content.ts`](src/data/content.ts): t
 measurement table and FAQ. Longer explanations are in the docs (`src/content/docs/*.md`) and in the section components
 (`src/components/*Section.astro`).
 
-Only describe what the shipped app does. Check against the app's README, `docs/FEATURE_VERIFICATION.md` and the source.
-Keep estimates labelled as estimates.
+Only describe what the shipped app does, using the names the app uses (for example "App power (estimated)" and "Not
+assigned to apps" in the popover). Check against the app itself and the README. Keep estimates labelled as estimates.
 
 ## Screenshots
 
-Real screenshots are in `src/assets/screens/`. The popover images are the app's own renders (`--render`), cropped
-from `docs/panel.png` and `docs/states.png` in the application repository.
+The site uses the real screenshots from `screenshots/` at the repository root, copied to `website/src/assets/screens/`
+(`app-*.png`). Tabs without a screenshot yet (GPU, Memory, Disk, Network, Activity, Sensors) show a labelled
+placeholder in [`DashboardSection.astro`](src/components/DashboardSection.astro).
 
-To replace a placeholder (Dashboard › Power History and each dashboard tab):
+To add or refresh a screenshot:
 
-1. Capture the dashboard on a Mac (⌘⇧4, then Space, then click the window), ideally at 2× and in Dark Mode to match
-   the app's default look.
-2. Save it to `src/assets/screens/`, for example `dashboard-power-history.png`.
-3. In [`HistorySection.astro`](src/components/HistorySection.astro) or
-   [`DashboardSection.astro`](src/components/DashboardSection.astro), replace `<Placeholder … />` with
-   `<div class="shot"><Image src={…} alt="…" widths={[480, 800, 1200]} sizes="…" /></div>`, describing what the image
-   shows in `alt`.
+1. Capture the window on a Mac (⌘⇧4, then Space, then click the window). Keep the window's own title bar; the site
+   shows it as it is.
+2. Save it to `src/assets/screens/`, for example `app-gpu.png`.
+3. In `DashboardSection.astro`, import it and add an entry to the `shots` map, keyed by the tab name, with a short
+   `alt` describing what the screenshot shows. The placeholder disappears automatically.
 
-Images are converted to responsive WebP at build time, so commit the original PNG.
+Images are converted to responsive WebP at build time, so commit the original PNG. After a new release changes the UI,
+re-capture the screenshots so the site doesn't describe an old version.
 
 If the icon or headline changes, regenerate the social preview with `node scripts/make-og.mjs`.
-
-## Making the download public
-
-Visitors can't download from a private GitHub repository. Pick one:
-
-- **A public releases-only repository** (for example `macpump-releases`) holding only release ZIPs and notes, no
-  source. Link to `https://github.com/<owner>/macpump-releases/releases/download/vX.Y.Z/<file>.zip`.
-- **Cloudflare R2** (or any static file host) behind a public bucket URL or a custom domain such as
-  `downloads.example.com`.
-
-Never use a link that only works when signed in to GitHub, and never put a token in a URL.
 
 ## Deployment
 

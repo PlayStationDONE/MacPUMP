@@ -593,6 +593,24 @@ figcaption {
   margin-top: var(--s-4);
 }
 
+/* Screenshots of app windows are PNGs with transparent rounded corners, so they get a shape-following drop shadow
+   instead of a framed box. */
+.app-shot img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 24px 30px rgb(0 0 0 / 0.26)) drop-shadow(0 4px 8px rgb(0 0 0 / 0.16));
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .app-shot img {
+    filter: drop-shadow(0 24px 34px rgb(0 0 0 / 0.7)) drop-shadow(0 0 0.5px rgb(255 255 255 / 0.25));
+  }
+}
+
+:root[data-theme='dark'] .app-shot img {
+  filter: drop-shadow(0 24px 34px rgb(0 0 0 / 0.7)) drop-shadow(0 0 0.5px rgb(255 255 255 / 0.25));
+}
+
 /* ---------- Segmented control ---------- */
 
 .segmented {

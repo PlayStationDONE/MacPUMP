@@ -10,28 +10,42 @@ export const app = {
   longName: 'Mac Power Usage Monitoring Program',
   tagline: 'See where your Mac’s power goes.',
   description:
-    'MacPUMP shows your MacBook’s live power use, battery time left and which apps use the most energy, in plain English. Your data stays on your Mac.',
+    'MacPUMP shows your MacBook’s live power use, battery time left and which apps use the most energy, in plain English. Free, private, and your data stays on your Mac.',
   /** Shown in page titles after the page name. */
   titleSuffix: 'MacPUMP',
 };
 
+/** The public GitHub repository: releases, issues and the licence text. */
+export const repo = {
+  url: 'https://github.com/PlayStationDONE/MacPUMP',
+  releases: 'https://github.com/PlayStationDONE/MacPUMP/releases/latest',
+  issues: 'https://github.com/PlayStationDONE/MacPUMP/issues',
+  licence: 'https://github.com/PlayStationDONE/MacPUMP/blob/main/LICENSE.md',
+};
+
 /**
- * The release offered on the Download section. Keep this in step with the GitHub release that has the app ZIP
- * attached, not with build.sh: a version without a downloadable build must not be advertised here.
+ * The release offered on the Download section. Keep this in step with the GitHub release that has the app attached.
+ * Take the file names and SHA-256 values from the release notes (or the asset "digest" on the release page).
  */
 export const release = {
-  version: '1.2.0',
+  version: '1.2.1',
   /** "pre-release" or "release". Pre-releases get a label next to the version. */
-  channel: 'pre-release' as 'pre-release' | 'release',
-  date: '2026-10-20',
+  channel: 'release' as 'pre-release' | 'release',
+  date: '2026-10-21',
   /**
-   * A public HTTPS link to the ZIP, or null while there is no public download. Never put a link that needs a GitHub
-   * login here (the application repository and its releases are private): visitors would get a 404.
+   * A public HTTPS link to the main download, or null while there is none. The repository and its releases are
+   * public, so a GitHub release asset works. Never use a link that needs a login.
    */
-  downloadUrl: null as string | null,
-  fileName: 'MacPUMP-1.2.0-macOS-arm64.zip',
-  /** SHA-256 of the ZIP, published so people can check their download. Null to hide it. */
-  sha256: '6c6fc49e8493cbd29841679c2dce17080c8c068da46ac59b4ec1f4bad8a74aeb' as string | null,
+  downloadUrl: 'https://github.com/PlayStationDONE/MacPUMP/releases/download/v1.2.1/MacPUMP-1.2.1.dmg' as string | null,
+  fileName: 'MacPUMP-1.2.1.dmg',
+  /** SHA-256 of the main download, published so people can check it. Null to hide it. */
+  sha256: '5a40327034f8afa38310ace109f34a498a0e1c6f0be622b4bf7c17a1b470828e' as string | null,
+  /** The same app as a ZIP, for people who prefer one. Null to hide it. */
+  alternate: {
+    url: 'https://github.com/PlayStationDONE/MacPUMP/releases/download/v1.2.1/MacPUMP-1.2.1.zip',
+    fileName: 'MacPUMP-1.2.1.zip',
+    sha256: '8fe3b526a66b34392c4aaba241d107a5276cca1dde009bc5f9481d609e8db7f3',
+  } as { url: string; fileName: string; sha256: string } | null,
   architecture: 'Apple silicon (arm64)',
   /** Plain statement of how the build is signed. Do not say "notarized" until it is. */
   signing: {
@@ -42,8 +56,8 @@ export const release = {
 
 export const requirements = {
   macOS: 'macOS 14 Sonoma or later',
-  hardware: 'A Mac with Apple silicon. Built for MacBooks with a battery.',
-  testedOn: 'Developed and tested on a 14-inch MacBook Pro with an M1 Pro.',
+  hardware: 'A Mac with Apple silicon (M1 or newer). Built for MacBooks with a battery.',
+  testedOn: 'Developed and properly tested on a MacBook Pro with an M1 Pro.',
 };
 
 export const nav = [
@@ -61,11 +75,14 @@ export const footerLinks = [
   { label: 'FAQ', href: '/#faq' },
   { label: 'Privacy', href: '/privacy' },
   { label: 'Licence', href: '/licence' },
+  { label: 'GitHub', href: repo.url },
+  { label: 'Report a bug', href: repo.issues },
 ];
 
 export const legal = {
-  /** The licence names no copyright holder yet; update this once it does. */
-  copyright: `© ${new Date().getFullYear()} MacPUMP. All rights reserved.`,
+  /** Matches LICENSE.md in the public repository. */
+  copyright: `© ${new Date().getFullYear()} the MacPUMP developer (PlayStationDONE). All rights reserved.`,
+  summary: 'MacPUMP is free to download and use. It is not open source.',
   thirdParty: {
     name: 'PowerFlow',
     author: 'Dylan',

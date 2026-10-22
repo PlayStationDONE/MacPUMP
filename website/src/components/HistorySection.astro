@@ -1,5 +1,6 @@
 ---
-import Placeholder from './Placeholder.astro';
+import { Image } from 'astro:assets';
+import shot from '../assets/screens/app-power-history.png';
 ---
 
 <section class="section section--alt" id="history" aria-labelledby="history-title">
@@ -33,10 +34,19 @@ import Placeholder from './Placeholder.astro';
     </div>
 
     <div class="split__media" data-reveal style="--reveal-delay:80ms">
-      <Placeholder
-        location="Dashboard › Power History"
-        shows="Summary cards for energy, average, peak and minimum above the power chart, for one of the ranges from 15 minutes to 30 days."
-      />
+      <figure>
+        <div class="app-shot">
+          <Image
+            src={shot}
+            alt="The MacPUMP dashboard, Power History tab, for the last 6 hours: cards for energy used 24.9 Wh, average power 13.1 W, highest 38.2 W and lowest 1.7 W, a power-over-time chart of Mac, adapter and battery power with gaps left blank, and an energy-used bar chart."
+            widths={[480, 800, 1200, 1600]}
+            sizes="(max-width: 900px) 92vw, 560px"
+          />
+        </div>
+        <figcaption class="caption">
+          Power History over six hours. The blank stretch is when no data was recorded; it isn’t counted as 0 W.
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>

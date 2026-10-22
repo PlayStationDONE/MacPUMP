@@ -205,7 +205,7 @@ export const faq: { q: string; a: string }[] = [
   },
   {
     q: 'Which app uses the most battery on my Mac?',
-    a: 'The Apps tab and the Draw by app list estimate how much power each app uses, right now and over the last 15 minutes to 7 days. They are estimates based on each app’s processor activity, not exact measurements.',
+    a: 'The Apps tab and the app power list in the popover estimate how much power each app uses, right now and over the last 15 minutes up to 30 days. They are estimates based on each app’s processor activity, not exact measurements.',
   },
   {
     q: 'How long will my MacBook battery last?',
@@ -214,6 +214,10 @@ export const faq: { q: string; a: string }[] = [
   {
     q: 'What is the difference between watts (W) and watt-hours (Wh)?',
     a: 'Watts are how fast energy is being used right now. Watt-hours are the total energy used over time, like speed versus distance.',
+  },
+  {
+    q: 'Is MacPUMP free?',
+    a: 'Yes. MacPUMP is free to download and use, at home or at work. It is not open source: you may not sell it, redistribute it or modify it. The full licence is on GitHub.',
   },
   {
     q: 'Are the numbers exact?',

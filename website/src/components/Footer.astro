@@ -18,7 +18,7 @@ import { app, footerLinks, legal, release, requirements } from '../config/site';
 
     <nav class="footer__links" aria-label="Footer">
       <ul>
-        {footerLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        {footerLinks.map((l) => <li><a href={l.href} rel={l.href.startsWith('http') ? 'noopener' : undefined}>{l.label}</a></li>)}
       </ul>
     </nav>
 
@@ -34,7 +34,7 @@ import { app, footerLinks, legal, release, requirements } from '../config/site';
 
   <div class="container caption">
     <div class="footer__legal">
-    <p>{legal.copyright} MacPUMP is proprietary software.</p>
+    <p>{legal.copyright} {legal.summary}</p>
     <p>
       Includes code from <a href={legal.thirdParty.url} rel="noopener">{legal.thirdParty.name}</a> by {
         legal.thirdParty.author

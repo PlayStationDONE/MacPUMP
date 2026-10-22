@@ -1,8 +1,38 @@
 ---
+import { Image } from 'astro:assets';
 import Placeholder from './Placeholder.astro';
+import power from '../assets/screens/app-power.png';
+import powerHistory from '../assets/screens/app-power-history.png';
+import apps from '../assets/screens/app-apps.png';
+import temperature from '../assets/screens/app-temperature.png';
+import cpu from '../assets/screens/app-cpu.png';
 import { dashboardTabs } from '../data/content';
 
 const slug = (s: string) => s.toLowerCase().replace(/\s+/g, '-');
+
+// Real screenshots by tab. Tabs without one show a labelled placeholder (see MAINTENANCE.md, "Screenshots").
+const shots: Record<string, { src: ImageMetadata; alt: string }> = {
+  Power: {
+    src: power,
+    alt: 'The Power tab: Mac power use 13.1 W (Calculated), the power adapter supplying 19.3 W of 140 W (Measured) with an estimated 20.8 W at the wall outlet, the battery charging at 100 percent, the power distribution diagram and a chart of Mac power use over time.',
+  },
+  'Power History': {
+    src: powerHistory,
+    alt: 'The Power History tab for six hours: energy used, average, highest and lowest power cards, a power-over-time chart with gaps left blank, and energy used per 15 minutes.',
+  },
+  Apps: {
+    src: apps,
+    alt: 'The Apps tab for the last hour: top app Safari, a stacked chart of estimated power by app per five minutes, and energy by app in watt-hours, all labelled Estimated.',
+  },
+  Temperature: {
+    src: temperature,
+    alt: 'The Temperature tab: Your Mac is running normally, with CPU, GPU, battery, storage, surface, airflow and wireless temperatures, fan speeds, and a temperature-over-time chart.',
+  },
+  CPU: {
+    src: cpu,
+    alt: 'The CPU tab: usage 11 percent (Measured), estimated CPU power 2.1 W, calculated core speed, heat Normal, per-core activity for performance and efficiency cores, and a usage-over-time chart.',
+  },
+};
 ---
 
 <section class="section" id="dashboard" aria-labelledby="dashboard-title">
@@ -17,9 +47,6 @@ const slug = (s: string) => s.toLowerCase().replace(/\s+/g, '-');
     </div>
 
     <div class="window" data-reveal data-tabs>
-      <div class="window__titlebar" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </div>
       <div class="window__body">
         <div class="window__sidebar" role="tablist" aria-label="Dashboard tabs" aria-orientation="vertical">
           {
@@ -53,7 +80,18 @@ const slug = (s: string) => s.toLowerCase().replace(/\s+/g, '-');
                   <span class="caption">{t.lite ? 'Lite and Advanced' : 'Advanced'}</span>
                 </div>
                 <p class="muted window__text">{t.text}</p>
-                <Placeholder location={`Dashboard › ${t.name}`} shows={t.text} ratio="2 / 1" class="window__ph" />
+                {shots[t.name] ? (
+                  <Image
+                    src={shots[t.name].src}
+                    alt={shots[t.name].alt}
+                    widths={[480, 800, 1200, 1600]}
+                    sizes="(max-width: 760px) 92vw, (max-width: 1200px) 70vw, 840px"
+                    class="window__shot"
+                    loading={i === 0 ? 'lazy' : 'lazy'}
+                  />
+                ) : (
+                  <Placeholder location={`Dashboard › ${t.name}`} shows={t.text} ratio="1600 / 1112" class="window__ph" />
+                )}
               </div>
             ))
           }
@@ -70,21 +108,6 @@ const slug = (s: string) => s.toLowerCase().replace(/\s+/g, '-');
     border: 1px solid var(--border);
     box-shadow: var(--shadow-window);
     overflow: hidden;
-  }
-
-  .window__titlebar {
-    display: flex;
-    gap: 8px;
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg-alt);
-  }
-
-  .window__titlebar span {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--text) 16%, transparent);
   }
 
   .window__body {
@@ -161,8 +184,15 @@ const slug = (s: string) => s.toLowerCase().replace(/\s+/g, '-');
     font-size: var(--fs-small);
   }
 
-  .window :global(.window__ph) {
+  .window :global(.window__ph),
+  .window :global(.window__shot) {
     margin-top: var(--s-5);
+  }
+
+  .window :global(.window__shot) {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 14px 22px rgb(0 0 0 / 0.22)) drop-shadow(0 2px 4px rgb(0 0 0 / 0.14));
   }
 
   .window :global(.window__ph .placeholder__what) {

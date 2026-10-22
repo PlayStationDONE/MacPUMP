@@ -27,6 +27,8 @@ const software: Record<string, unknown> = {
   url: Astro.site?.toString(),
 };
 if (release.downloadUrl) software.downloadUrl = release.downloadUrl;
+// MacPUMP's licence says it is free to download and use.
+software.offers = { '@type': 'Offer', price: '0', priceCurrency: 'USD' };
 
 const faqPage = {
   '@context': 'https://schema.org',
