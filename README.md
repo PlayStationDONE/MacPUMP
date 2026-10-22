@@ -7,6 +7,17 @@ on your Mac & no root access needed!
 
 **[⬇︎ Download the latest version](https://github.com/PlayStationDONE/MacPUMP/releases/latest)**. It's free.
 
+<p align="center">
+  <img src="screenshots/power.png" alt="MacPUMP dashboard, Power tab" width="820">
+</p>
+
+<p align="center">
+  <img src="screenshots/popover.png" alt="MacPUMP menu bar popover" width="300">
+  &nbsp;&nbsp;
+  <img src="screenshots/overlay.png" alt="MacPUMP floating power meter" width="222">
+</p>
+<p align="center"><sub>One click from your menu bar, or float it on top of everything. Your call.</sub></p>
+
 ## What it does
 
 **See your power, live**
@@ -20,12 +31,28 @@ on your Mac & no root access needed!
 - Apps ranked by estimated power use, with history.
 - What is keeping your Mac awake.
 
+<img src="screenshots/apps.png" alt="Apps tab" width="820">
+
+<sub>Apps: name and shame the battery hogs (politely, with estimates).</sub>
+
 **Look inside your Mac** (Advanced mode)
 - CPU usage, core speeds and power; GPU, memory, disk and network; temperatures and fans; the sensors your Mac
   provides.
 
+<img src="screenshots/cpu.png" alt="CPU tab" width="820">
+
+<sub>CPU: every core, how busy it is and how fast it's going.</sub>
+
+<img src="screenshots/temperature.png" alt="Temperature tab" width="820">
+
+<sub>Temperature: is your Mac chill or spicy? Now you know.</sub>
+
 **Look back in time**
 - Charts from the last 15 minutes up to 30 days, energy used, battery health trend, a weekly report, and CSV export.
+
+<img src="screenshots/power-history.png" alt="Power History tab" width="820">
+
+<sub>Power History: scroll back in time and see exactly when your Mac went on a snack run.</sub>
 
 **Stay informed**
 - A customisable menu bar popover, an optional floating power meter, alerts on the readings you care about, and
@@ -34,6 +61,10 @@ on your Mac & no root access needed!
 **Make it yours**
 - **Lite** mode for the essentials, **Advanced** mode for everything. Switch any time in Settings.
 - Show it in the menu bar, the Dock, or both. Light and Dark mode.
+
+<img src="screenshots/settings.png" alt="Settings window" width="720">
+
+<sub>Settings: tweak to your heart's content. Or don't. Lite mode won't judge.</sub>
 
 ## Privacy
 
