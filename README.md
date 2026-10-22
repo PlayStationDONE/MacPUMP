@@ -9,12 +9,7 @@ Are you:
 
 What are you still waiting for? Download MacPUMP (Mac Power Usage Monitoring Program)—the all-in-one, ultimate monitor for your Mac for dummy and pro users alike. It shows where your Mac's power goes, which apps drain your precious battery, and how your Mac is really doing ALL THE DAMN TIME with ease of use in mind!
 
-Why you’ll love it:
-Power & Battery Insights: Stop guessing which rogue app is chewing through your battery in the background.
-100% Private & Local: Everything stays right on your Mac. No data leaves your machine.
-Zero Admin Hassle: No root access needed!
-Open-Source & Free: Built by a Mac user, for Mac users.
-I just officially released it, and I’d love for you guys to try it out, Check out the app, & drop a star on GitHub so other people can share the enjoyment of being a OCD freaks like you!
+Check out the app, & drop a star on GitHub so other people can share the enjoyment of being a OCD freaks like you!
 
 Let me know what you think, what features you want to see next, or if you run into any bugs. Feedback is super welcome! 
 
