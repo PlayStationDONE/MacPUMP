@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { legal } from '../config/site';
+import { legal, repo } from '../config/site';
 ---
 
 <Base title="Licence" description="How MacPUMP is licensed, and the open-source software it includes.">
@@ -13,9 +13,22 @@ import { legal } from '../config/site';
     <div class="prose">
       <h2>MacPUMP</h2>
       <p>
-        MacPUMP is proprietary software. All rights reserved. You may not copy, redistribute, modify, sell or publish the
-        app or its source code without the written permission of the copyright holder. The app is provided “as is”, without
-        warranty of any kind. Nothing here limits rights you have by law that can’t be excluded.
+        {legal.summary} It is free to download and use, at home or at work, for as long as you like. You may install it
+        on Macs you own or control, and you’re welcome to tell people about it and share the link to the official page.
+      </p>
+      <p>Without written permission from the developer, you may not:</p>
+      <ul>
+        <li><strong>Sell or profit from it:</strong> sell, rent, lease or license it, charge for access or installation, bundle it with something you sell, or distribute it with advertising.</li>
+        <li><strong>Redistribute it:</strong> host copies, original or modified, anywhere else, including app stores, download sites and mirrors. Share the official link instead.</li>
+        <li><strong>Modify it:</strong> change, patch, repackage, re-sign or remove notices from the app.</li>
+        <li><strong>Reverse engineer it,</strong> except where the law allows this despite the restriction.</li>
+        <li><strong>Use its name or icon</strong> to suggest another product is MacPUMP or is endorsed by its developer.</li>
+      </ul>
+      <p>
+        The app is provided “as is”, without warranty of any kind. Nothing here takes away rights you have by law that
+        can’t be excluded. This is a summary; the full text is in
+        <a href={repo.licence} rel="noopener">LICENSE.md</a>, and it is what applies. For commercial licensing or any
+        other permission, <a href={repo.issues} rel="noopener">open an issue</a> on the official GitHub page.
       </p>
 
       <h2>{legal.thirdParty.name}</h2>
@@ -48,8 +61,8 @@ SOFTWARE.</code></pre>
 
       <h2>Earlier versions</h2>
       <p>
-        Versions 1.1.0 and earlier were published under the MIT License. Anyone who received those versions under that
-        licence keeps the rights it gives them.
+        Versions 1.1.0 and earlier of the project were published under the MIT License. Anyone who received those versions
+        under that licence keeps the rights it gives them.
       </p>
 
       <h2>Apple frameworks and trademarks</h2>

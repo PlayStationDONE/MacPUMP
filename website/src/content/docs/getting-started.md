@@ -13,9 +13,11 @@ group: Getting started
 
 ## Install
 
-1. Download the MacPUMP ZIP and double-click it.
-2. Drag **MacPUMP.app** into your **Applications** folder.
+1. Download **MacPUMP-<version>.dmg** from the [latest release](https://github.com/PlayStationDONE/MacPUMP/releases/latest), or use the ZIP if you prefer.
+2. Open the disk image and drag **MacPUMP** into your **Applications** folder. (From the ZIP: unzip it, then drag **MacPUMP.app** across.)
 3. Open it.
+
+MacPUMP is free to download and use. The download is for Apple silicon Macs (M1 or newer).
 
 ### The first time you open it
 

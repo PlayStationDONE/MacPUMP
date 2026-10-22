@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import icon from '../assets/app-icon.png';
-import { app, release, requirements } from '../config/site';
+import { app, release, repo, requirements } from '../config/site';
 
 const date = new Date(release.date + 'T12:00:00Z').toLocaleDateString('en-GB', {
   day: 'numeric',
@@ -11,8 +11,8 @@ const date = new Date(release.date + 'T12:00:00Z').toLocaleDateString('en-GB', {
 });
 const steps = [
   {
-    title: 'Unzip and move',
-    text: 'Double-click the ZIP, then drag MacPUMP into your Applications folder.',
+    title: 'Open the disk image',
+    text: 'Double-click the downloaded file, then drag MacPUMP into your Applications folder. (Prefer the ZIP? Unzip it and drag MacPUMP the same way.)',
   },
   {
     title: 'Open it once',
@@ -36,6 +36,7 @@ const steps = [
         <div class="download__action">
           {
             release.downloadUrl ? (
+              <>
               <a class="btn btn--primary btn--lg" href={release.downloadUrl} download>
                 <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
                   <path
@@ -48,6 +49,18 @@ const steps = [
                 </svg>
                 Download {app.name} {release.version}
               </a>
+              <p class="caption download__alt">
+                {release.fileName}
+                {release.alternate && (
+                  <>
+                    {' · '}
+                    <a href={release.alternate.url}>or download the ZIP</a>
+                  </>
+                )}
+                {' · '}
+                <a href={repo.releases}>all releases</a>
+              </p>
+              </>
             ) : (
               <>
                 <span class="btn btn--lg" aria-disabled="true" role="link" aria-describedby="download-status">
@@ -95,6 +108,14 @@ const steps = [
             </div>
           )
         }
+        {
+          release.alternate && release.downloadUrl && (
+            <div class="download__wide">
+              <dt>SHA-256 of {release.alternate.fileName}</dt>
+              <dd class="measure download__hash">{release.alternate.sha256}</dd>
+            </div>
+          )
+        }
       </dl>
     </div>
 
@@ -116,7 +137,7 @@ const steps = [
         }
       </ol>
       <p class="caption install__more">
-        {`${requirements.testedOn} Intel Macs are not supported by the downloadable build. `}
+        {`${requirements.testedOn} The download is for Apple silicon; Intel Macs aren’t supported. `}
         <a href="/docs/getting-started">Full installation guide</a>
       </p>
     </div>
@@ -154,6 +175,10 @@ const steps = [
 
   .download__action {
     margin-top: var(--s-6);
+  }
+
+  .download__alt {
+    margin-top: var(--s-3);
   }
 
   .download__status {

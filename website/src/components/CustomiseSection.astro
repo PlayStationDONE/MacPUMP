@@ -1,4 +1,8 @@
 ---
+import { Image } from 'astro:assets';
+import settings from '../assets/screens/app-settings.png';
+import overlay from '../assets/screens/app-overlay.png';
+
 const specs = [
   {
     title: 'Popover layouts',
@@ -51,6 +55,27 @@ const specs = [
       </div>
     </div>
 
+    <div class="looks" data-reveal>
+      <figure class="looks__settings app-shot">
+        <Image
+          src={settings}
+          alt="MacPUMP Settings, General pane: a Lite or Advanced switch with Advanced selected, open at login, show MacPUMP in the menu bar and Dock, the ⌥⌘P keyboard shortcut and appearance."
+          widths={[480, 800, 1200]}
+          sizes="(max-width: 760px) 92vw, 600px"
+        />
+        <figcaption class="caption">Settings: Lite or Advanced is one switch, and switching never deletes anything.</figcaption>
+      </figure>
+      <figure class="looks__overlay app-shot">
+        <Image
+          src={overlay}
+          alt="The optional floating overlay: adapter power 13.4 W, Mac power use 7.6 W and a small live graph."
+          widths={[222, 444]}
+          sizes="222px"
+        />
+        <figcaption class="caption">The optional floating power meter. Off until you want it.</figcaption>
+      </figure>
+    </div>
+
     <dl class="specs">
       {
         specs.map((s, i) => (
@@ -86,6 +111,24 @@ const specs = [
     font-size: var(--fs-small);
   }
 
+  .looks {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    gap: var(--s-6);
+    align-items: center;
+    margin-top: var(--s-7);
+  }
+
+  .looks__overlay {
+    justify-self: center;
+    max-width: 222px;
+  }
+
+  .looks figcaption {
+    margin-top: var(--s-4);
+    text-align: center;
+  }
+
   .specs {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -105,6 +148,7 @@ const specs = [
 
   @media (max-width: 760px) {
     .modes,
+    .looks,
     .specs {
       grid-template-columns: minmax(0, 1fr);
     }
