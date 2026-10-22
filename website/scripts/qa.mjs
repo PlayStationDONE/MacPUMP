@@ -195,12 +195,10 @@ for (const vp of viewports) {
   const page = await context.newPage();
   await page.goto(base + '/', { waitUntil: 'networkidle' });
 
-  const before = await page.getAttribute('[data-ribbon="aB"]', 'd');
+  if (await page.isHidden('[data-shot="heavy"]')) fail('Power-flow demo does not start on Heavy load');
   await page.click('[data-state="charging"]');
-  await page.waitForTimeout(600);
-  const after = await page.getAttribute('[data-ribbon="aB"]', 'd');
-  if (before === after) fail('Power-flow demo did not change when a state was chosen');
-  if ((await page.textContent('[data-mac-label]')) !== '35W') fail('Power-flow demo shows the wrong Mac total for Charging');
+  if (await page.isHidden('[data-shot="charging"]')) fail('Power-flow demo did not show the Charging screenshot');
+  if (!(await page.isHidden('[data-shot="heavy"]'))) fail('Power-flow demo still shows Heavy load after choosing Charging');
 
   await page.click('#tab-cpu');
   if (await page.isHidden('#panel-cpu')) fail('Dashboard tab did not show its panel');
